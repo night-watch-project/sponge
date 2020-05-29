@@ -8,7 +8,8 @@
   "repository": "git@github.com:night-watch-project/spider-ham.git",
   "scripts": {},
   "dependencies": {
-    "playwright-firefox": "^1.0.2"
+    "playwright-firefox": "^1.0.2",
+    "rate-limiter-flexible": "^2.1.6"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
