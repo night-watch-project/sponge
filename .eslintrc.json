@@ -4,6 +4,7 @@
     "node": true
   },
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "impliedStrict": true

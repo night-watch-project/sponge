@@ -7,8 +7,11 @@
   "license": "MIT",
   "repository": "git@github.com:night-watch-project/spider-ham.git",
   "scripts": {},
-  "dependencies": {},
+  "dependencies": {
+    "playwright-firefox": "^1.0.2"
+  },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
