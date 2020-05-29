@@ -8,8 +8,8 @@ module.exports = async (req, res) => {
       res.status(200).json({ iam: "/api/scraper" })
     } else if (req.method === "POST") {
       const { url, targets } = req.body
-      const result = await browser.scrape(url, targets)
-      res.status(200).json(result)
+      const resultTargets = await browser.scrape(url, targets)
+      res.status(200).json({ targets: resultTargets })
     } else {
       res.status(405).json({})
     }
