@@ -6,6 +6,7 @@
   "author": "Night Watch Project",
   "license": "MIT",
   "repository": "git@github.com:night-watch-project/spider-ham.git",
+  "type": "module",
   "scripts": {},
   "dependencies": {
     "playwright-firefox": "^1.0.2",

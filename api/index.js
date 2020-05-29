@@ -1,3 +1,3 @@
-module.exports = (req, res) => {
+export default (req, res) => {
   res.status(200).json({ iam: "/api" })
 }

@@ -1,7 +1,7 @@
-const { HeadlessBrowser } = require("../lib/headless-browser")
-const { RateLimiter } = require("../lib/rate-limiter")
+import { HeadlessBrowser } from "../lib/headless-browser"
+import { RateLimiter } from "../lib/rate-limiter"
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     await RateLimiter.consume(req)
   } catch {
