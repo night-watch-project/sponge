@@ -1,4 +1,4 @@
-const { HeadlessBrowser } = require("../../lib/headless-browser")
+const { HeadlessBrowser } = require("../lib/headless-browser")
 
 const browser = new HeadlessBrowser()
 

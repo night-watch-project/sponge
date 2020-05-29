@@ -1,3 +1,5 @@
 {
-  "scope": "albert-team"
+  "scope": "albert-team",
+  "cleanUrls": true,
+  "trailingSlash": false
 }
