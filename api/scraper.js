@@ -3,7 +3,7 @@ import { RateLimiter } from "../lib/rate-limiter"
 
 export default async (req, res) => {
   try {
-    await RateLimiter.consume(req)
+    await RateLimiter.consumeRequest(req)
   } catch {
     return res.status(429).json({})
   }
