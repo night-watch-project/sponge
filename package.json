@@ -9,8 +9,7 @@
   "type": "module",
   "scripts": {},
   "dependencies": {
-    "playwright-firefox": "^1.0.2",
-    "rate-limiter-flexible": "^2.1.6"
+    "playwright-firefox": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

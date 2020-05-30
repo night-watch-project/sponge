@@ -1,0 +1,6 @@
+{
+  "name": "spider-ham",
+  "description": "Spider-Ham",
+  "openapi": "./openapi.json",
+  "keywords": ["spider-ham", "scraper"]
+}

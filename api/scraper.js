@@ -1,13 +1,6 @@
 import { HeadlessBrowser } from "../lib/headless-browser"
-import { RateLimiter } from "../lib/rate-limiter"
 
 export default async (req, res) => {
-  try {
-    await RateLimiter.consumeRequest(req)
-  } catch {
-    return res.status(429).json({})
-  }
-
   try {
     if (req.method === "GET") {
       return res.status(200).json({ iam: "/api/scraper" })
