@@ -1,0 +1,11 @@
+{
+  "include": ["src"],
+  "exclude": ["**/*.test.*"],
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": true,
+    "target": "ES2020"
+  }
+}
