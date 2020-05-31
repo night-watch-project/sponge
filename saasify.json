@@ -1,0 +1,7 @@
+{
+  "name": "spider-ham",
+  "description": "Peter Porker as Spider-Ham",
+  "version": "0.4.0",
+  "keywords": ["spider-ham", "scraper"],
+  "openapi": "./dist/openapi.json"
+}
