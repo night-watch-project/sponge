@@ -18,6 +18,8 @@
     "@nestjs/common": "^7.1.1",
     "@nestjs/core": "^7.1.1",
     "@nestjs/platform-fastify": "^7.1.1",
+    "@nestjs/swagger": "^4.5.9",
+    "fastify-swagger": "^2.6.0",
     "playwright": "^1.0.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.5"

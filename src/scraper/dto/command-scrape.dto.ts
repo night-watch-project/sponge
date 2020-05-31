@@ -1,7 +1,7 @@
-import type { InputTarget } from "../interfaces/input-target.interface"
+import { InputTarget } from "../classes/input-target.class"
 
-export interface CommandScrapeDto {
+export class CommandScrapeDto {
   url: string
-  targets: InputTarget[]
-  csr?: boolean
+  targets?: InputTarget[] = []
+  csr?: boolean = false
 }

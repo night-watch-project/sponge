@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common"
 import { firefox } from "playwright"
 import type { FirefoxBrowser } from "playwright"
-import type { InputTarget } from "./interfaces/input-target.interface"
-import type { OutputTarget } from "./interfaces/output-target.interface"
+import type { InputTarget } from "./classes/input-target.class"
+import type { OutputTarget } from "./classes/output-target.class"
 
 @Injectable()
 export class ScraperService {
