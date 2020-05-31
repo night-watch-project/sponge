@@ -3,7 +3,9 @@
   "exclude": ["**/*.test.*"],
   "compilerOptions": {
     "alwaysStrict": true,
-    "module": "ES2020",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "CommonJS",
     "outDir": "dist",
     "strict": true,
     "target": "ES2020"
