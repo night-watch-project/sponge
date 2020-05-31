@@ -3,5 +3,45 @@
   "description": "Peter Porker as Spider-Ham",
   "version": "0.4.0",
   "keywords": ["spider-ham", "scraper"],
-  "openapi": "./dist/openapi.json"
+  "openapi": "./dist/openapi.json",
+  "services": [
+    {
+      "path": "/scraper",
+      "httpMethod": "POST",
+      "examples": [
+        {
+          "name": "With client-side rendering (CSR)",
+          "description": "Get current date and time",
+          "input": {
+            "url": "https://www.google.com/search?q=time",
+            "targets": [
+              {
+                "cssSelector": ".gsrt",
+                "name": "Time"
+              },
+              {
+                "cssSelector": ".vk_gy.vk_sh",
+                "type": "string",
+                "name": "Date"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "authProviders": {
+    "default": {
+      "enabled": true
+    },
+    "github": {
+      "enabled": true
+    },
+    "google": {
+      "enabled": true
+    },
+    "twitter": {
+      "enabled": true
+    }
+  }
 }

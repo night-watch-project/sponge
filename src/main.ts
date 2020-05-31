@@ -18,7 +18,7 @@ const bootstrap = async () => {
     .setDescription(packagejson.description)
     .setVersion(packagejson.version)
     .addServer("http://localhost:3000")
-    .addServer("https://github.com/night-watch-project/spider-ham")
+    .addServer("https://httpbin.org")
     .build()
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup("docs", app, document)
