@@ -3,9 +3,13 @@
   "exclude": ["**/*.test.*"],
   "compilerOptions": {
     "alwaysStrict": true,
-    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "CommonJS",
     "outDir": "dist",
+    "resolveJsonModule": true,
     "strict": true,
+    "strictPropertyInitialization": false,
     "target": "ES2020"
   }
 }
