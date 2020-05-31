@@ -22,7 +22,7 @@ const bootstrap = async () => {
     .build()
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup("docs", app, document)
-
+  // export OpenAPI/Swagger specs to JSON file, in order to work with Saasify
   await fs.writeFile(path.join(__dirname, "../openapi.json"), JSON.stringify(document))
 
   await app.listen(3000)

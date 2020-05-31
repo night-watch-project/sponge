@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from "@nestjs/common"
-import { CommandScrapeDto } from "./dto/command-scrape.dto"
+import { ScrapeCommandDto } from "./dto/scrape-command.dto"
 import { ScrapeResultDto } from "./dto/scrape-result.dto"
 import { ScraperService } from "./scraper.service"
 
@@ -13,8 +13,8 @@ export class ScraperController {
   }
 
   @Post()
-  async post(@Body() body: CommandScrapeDto): Promise<ScrapeResultDto> {
-    const targets = await this.service.run(body.url, body.targets ?? [])
+  async post(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
+    const targets = await this.service.scrape(body.url, body.targets ?? [])
     return { targets }
   }
 }
