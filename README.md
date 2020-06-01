@@ -1,3 +1,0 @@
-# spider-ham
-
-Spider-Ham

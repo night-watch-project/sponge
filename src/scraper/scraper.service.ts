@@ -20,7 +20,7 @@ export class ScraperService {
     this.browser = undefined
   }
 
-  public async run(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
+  public async scrape(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
     const browser = await this.launchIfNeeded()
     const context = await browser.newContext()
     context.setDefaultTimeout(10 * 1000) // 10s

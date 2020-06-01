@@ -1,6 +1,6 @@
 import { InputTarget } from "../classes/input-target.class"
 
-export class CommandScrapeDto {
+export class ScrapeCommandDto {
   url: string
   targets?: InputTarget[] = []
   csr?: boolean = false
