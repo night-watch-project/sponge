@@ -105,3 +105,8 @@ dist
 
 # Lock files
 *.lock
+
+# Dotenv files
+.env
+.env.*
+!.env.example
