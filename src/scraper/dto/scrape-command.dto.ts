@@ -1,4 +1,4 @@
-import { InputTarget } from "../classes/input-target.class"
+import { InputTarget } from "../types/input-target.class"
 
 export class ScrapeCommandDto {
   url: string

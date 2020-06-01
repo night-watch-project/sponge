@@ -1,13 +1,20 @@
-import { Injectable } from "@nestjs/common"
+import { HttpService, Injectable } from "@nestjs/common"
+import { JSDOM } from "jsdom"
 import { firefox } from "playwright"
 import type { FirefoxBrowser } from "playwright"
-import type { InputTarget } from "./classes/input-target.class"
-import type { OutputTarget } from "./classes/output-target.class"
+import type { InputTarget } from "./types/input-target.class"
+import type { OutputTarget } from "./types/output-target.class"
+import { TargetType } from "./types/target-type.enum"
 
 @Injectable()
 export class ScraperService {
   private browser?: FirefoxBrowser
 
+  public constructor(private readonly httpService: HttpService) {}
+
+  /**
+   * Launch browser if needed.
+   */
   private async launchIfNeeded(): Promise<FirefoxBrowser> {
     if (!this.browser) {
       this.browser = await firefox.launch()
@@ -15,12 +22,24 @@ export class ScraperService {
     return this.browser
   }
 
+  /**
+   * Close browser and all of its pages (if any were opened).
+   */
   private async close(): Promise<void> {
     await this.browser?.close()
     this.browser = undefined
   }
 
-  public async scrape(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
+  public scrape(
+    url: string,
+    targets: InputTarget[],
+    csr = false
+  ): Promise<OutputTarget[]> {
+    if (csr) return this.scrapeCSR(url, targets)
+    else return this.scrapeSSR(url, targets)
+  }
+
+  private async scrapeCSR(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
     const browser = await this.launchIfNeeded()
     const context = await browser.newContext()
     context.setDefaultTimeout(10 * 1000) // 10s
@@ -31,18 +50,11 @@ export class ScraperService {
 
       return await Promise.all(
         targets.map(async (target) => {
-          const { cssSelector, type = "string", name, description } = target
+          const { cssSelector, type = TargetType.String, name, description } = target
 
           const handle = await page.waitForSelector(cssSelector)
           const rawValue = await handle.textContent()
-          let value
-          if (rawValue === null) {
-            value = null
-          } else if (type === "number") {
-            value = parseFloat(rawValue)
-          } else {
-            value = rawValue.trim()
-          }
+          const value = this.parseRawValue(rawValue, type)
 
           return { cssSelector, type, value, name, description }
         })
@@ -51,5 +63,39 @@ export class ScraperService {
       await page.close()
       await context.close()
     }
+  }
+
+  private async scrapeSSR(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
+    const res = await this.httpService.get(url).toPromise()
+    if (res.status < 200 || res.status >= 300 || !res.data) {
+      throw new Error(`Cannot GET ${url}`)
+    }
+    const dom = new JSDOM(res.data)
+    const { document } = dom.window
+
+    return await Promise.all(
+      targets.map((target) => {
+        const { cssSelector, type = TargetType.String, name, description } = target
+
+        const element = document.querySelector(cssSelector)
+        const rawValue = element?.textContent
+        const value = this.parseRawValue(rawValue, type)
+
+        return { cssSelector, type, value, name, description }
+      })
+    )
+  }
+
+  private parseRawValue(
+    rawValue: string | null | undefined,
+    type: TargetType
+  ): string | number | null {
+    if (rawValue === null || rawValue === undefined) {
+      return null
+    }
+    if (type === TargetType.Number) {
+      return parseFloat(rawValue)
+    }
+    return rawValue.trim()
   }
 }

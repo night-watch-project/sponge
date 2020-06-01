@@ -1,4 +1,4 @@
-import { OutputTarget } from "../classes/output-target.class"
+import { OutputTarget } from "../types/output-target.class"
 
 export class ScrapeResultDto {
   targets: OutputTarget[]

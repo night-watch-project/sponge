@@ -1,6 +1,8 @@
+import { TargetType } from "./target-type.enum"
+
 export class OutputTarget {
   cssSelector: string
-  type: "string" | "number"
+  type: TargetType
   value: string | number | null
   name?: string
   description?: string
