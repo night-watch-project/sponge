@@ -50,13 +50,21 @@ export class ScraperService {
 
       return await Promise.all(
         targets.map(async (target) => {
-          const { cssSelector, type = TargetType.String, name, description } = target
+          const {
+            cssSelector,
+            attribute,
+            type = TargetType.String,
+            name,
+            description,
+          } = target
 
           const handle = await page.waitForSelector(cssSelector)
-          const rawValue = await handle.textContent()
+          const rawValue = attribute
+            ? await handle.getAttribute(attribute)
+            : await handle.textContent()
           const value = this.parseRawValue(rawValue, type)
 
-          return { cssSelector, type, value, name, description }
+          return { cssSelector, attribute, type, value, name, description }
         })
       )
     } finally {
@@ -75,13 +83,21 @@ export class ScraperService {
 
     return await Promise.all(
       targets.map((target) => {
-        const { cssSelector, type = TargetType.String, name, description } = target
+        const {
+          cssSelector,
+          attribute,
+          type = TargetType.String,
+          name,
+          description,
+        } = target
 
         const element = document.querySelector(cssSelector)
-        const rawValue = element?.textContent
+        const rawValue = attribute
+          ? element?.getAttribute(attribute)
+          : element?.textContent
         const value = this.parseRawValue(rawValue, type)
 
-        return { cssSelector, type, value, name, description }
+        return { cssSelector, attribute, type, value, name, description }
       })
     )
   }

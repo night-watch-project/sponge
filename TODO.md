@@ -3,7 +3,6 @@
 ## HIGH PRIORITY
 
 - Add `InputTarget.multiple: boolean` option to scrape all elements matched by the provided CSS selector
-- Add `InputTarget.attribute: string` option to scrape the target's attribute instead of textContent
 
 ## MEDIUM PRIORITY
 
