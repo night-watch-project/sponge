@@ -1,5 +1,18 @@
 {
   "compilerOptions": {
-    "plugins": ["@nestjs/swagger/plugin"]
+    "plugins": [
+      {
+        "name": "@nestjs/swagger/plugin",
+        "options": {
+          "dtoFileNameSuffix": [
+            ".dto.ts",
+            ".entity.ts",
+            ".class.ts",
+            ".interface.ts",
+            ".enum.ts"
+          ]
+        }
+      }
+    ]
   }
 }
