@@ -35,6 +35,12 @@ export class ScraperService {
     targets: InputTarget[],
     csr = false
   ): Promise<OutputTarget[]> {
+    if (!targets.length) {
+      targets.push({
+        cssSelector: "html",
+        type: TargetType.Html,
+      })
+    }
     if (csr) return this.scrapeCSR(url, targets)
     else return this.scrapeSSR(url, targets)
   }
@@ -61,6 +67,8 @@ export class ScraperService {
           const handle = await page.waitForSelector(cssSelector)
           const rawValue = attribute
             ? await handle.getAttribute(attribute)
+            : type === TargetType.Html
+            ? await handle.innerHTML()
             : await handle.textContent()
           const value = this.parseRawValue(rawValue, type)
 
@@ -94,8 +102,10 @@ export class ScraperService {
         const element = document.querySelector(cssSelector)
         const rawValue = attribute
           ? element?.getAttribute(attribute)
+          : type === TargetType.Html
+          ? element?.innerHTML
           : element?.textContent
-        const value = this.parseRawValue(rawValue, type)
+        const value = this.parseRawValue(rawValue ?? null, type)
 
         return { cssSelector, attribute, type, value, name, description }
       })
@@ -103,10 +113,10 @@ export class ScraperService {
   }
 
   private parseRawValue(
-    rawValue: string | null | undefined,
+    rawValue: string | null,
     type: TargetType
   ): string | number | null {
-    if (rawValue === null || rawValue === undefined) {
+    if (rawValue === null) {
       return null
     }
     if (type === TargetType.Number) {

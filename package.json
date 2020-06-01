@@ -11,7 +11,7 @@
     "build": "nest build",
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start:debug": "NODE_ENV=dev nest start --watch --debug",
-    "start:prod": "NODE_ENV=prod node dist/main"
+    "start:prod": "NODE_ENV=prod node dist/src/main"
   },
   "dependencies": {
     "@nestjs/common": "^7.1.1",

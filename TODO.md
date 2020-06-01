@@ -10,5 +10,5 @@
 
 ## LOW PRIORITY
 
-- Auto extract main content if `ScrapeCommandDto.targets` is not provided or empty
+- Auto extract main content
 - Support DOM extraction expression evaluators like [Surgeon](https://github.com/gajus/surgeon)
