@@ -16,9 +16,18 @@ Peter Porker as Spider-Ham
 
 ### Instructions
 
+#### Without Docker (dev environment)
+
 ```shell
-$ npm i # yarn install
-$ npm start:dev # yarn start:dev
+$ npm i             # yarn install
+$ npm run start:dev # yarn start:dev
+```
+
+#### With Docker (prod environment)
+
+```shell
+$ npm run build:docker # yarn build:docker
+$ npm run start:docker # yarn start:docker
 ```
 
 ## CHANGELOG

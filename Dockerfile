@@ -24,6 +24,6 @@ COPY . .
 
 COPY --from=dev /usr/src/app/dist ./dist
 
-EXPOSE 3211
+EXPOSE 3000
 
 CMD npm run start:prod

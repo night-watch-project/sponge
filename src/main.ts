@@ -9,7 +9,7 @@ import * as packagejson from "../package.json"
 import { AppModule } from "./app.module"
 
 dotenv.config()
-const { HTTPS = "false", HOST = "localhost", PORT = "3000" } = process.env
+const { HOST } = process.env
 
 const bootstrap = async () => {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -21,13 +21,13 @@ const bootstrap = async () => {
     .setTitle(packagejson.name)
     .setDescription(packagejson.description)
     .setVersion(packagejson.version)
-    .addServer(`${HTTPS === "true" ? "https" : "http"}://${HOST}:${PORT}`)
+    .addServer(HOST ? `https://${HOST}` : "http://localhost:3000")
     .build()
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup("docs", app, document)
   // export OpenAPI/Swagger specs to JSON file, in order to work with Saasify
   await fs.writeFile(path.join(__dirname, "../openapi.json"), JSON.stringify(document))
 
-  await app.listen(parseInt(PORT), "::")
+  await app.listen(3000, "::")
 }
 bootstrap()
