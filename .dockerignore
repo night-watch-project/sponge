@@ -1,0 +1,13 @@
+# Dependencies
+node_modules
+
+# Lock files
+*.lock
+package-lock.json
+
+# Build output
+dist
+
+# Docker files
+.dockerignore
+Dockerfile

@@ -11,7 +11,7 @@ Peter Porker as Spider-Ham
 
 ### Requirements
 
-- Node.js >= 12 (Node.js >= 14 is recommended)
+- Node.js >= 14
 - Environment variables specified in [.env.example](https://github.com/night-watch-project/spider-ham/blob/master/.env.example)
 
 ### Instructions

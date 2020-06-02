@@ -28,6 +28,6 @@ const bootstrap = async () => {
   // export OpenAPI/Swagger specs to JSON file, in order to work with Saasify
   await fs.writeFile(path.join(__dirname, "../openapi.json"), JSON.stringify(document))
 
-  await app.listen(parseInt(PORT))
+  await app.listen(parseInt(PORT), "::")
 }
 bootstrap()
