@@ -4,8 +4,8 @@ Peter Porker as Spider-Ham
 
 ## FEATURES
 
-- Get raw HTML of any web page, even client-rendered ones using headless Firefox browser
-- Get text content or attribute value of any element on the page with CSS selectors
+- Get raw HTML of any web page, even client-rendered ones
+- Get text content, attribute value or inner HTML of any element with CSS selectors
 
 ## INSTALLATION
 
