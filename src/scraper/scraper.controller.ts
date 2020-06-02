@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from "@nestjs/common"
-import { IamDto } from "./dto/iam.dto"
+import { IamDto } from "../common/dto/iam.dto"
 import { ScrapeCommandDto } from "./dto/scrape-command.dto"
 import { ScrapeResultDto } from "./dto/scrape-result.dto"
 import { ScraperService } from "./scraper.service"
