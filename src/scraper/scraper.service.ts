@@ -35,12 +35,6 @@ export class ScraperService {
     targets: InputTarget[],
     csr = false
   ): Promise<OutputTarget[]> {
-    if (!targets.length) {
-      targets.push({
-        cssSelector: "html",
-        type: TargetType.Html,
-      })
-    }
     if (csr) return this.scrapeCSR(url, targets)
     else return this.scrapeSSR(url, targets)
   }
@@ -54,27 +48,15 @@ export class ScraperService {
     try {
       await page.goto(url)
 
-      return await Promise.all(
-        targets.map(async (target) => {
-          const {
-            cssSelector,
-            attribute,
-            type = TargetType.String,
-            name,
-            description,
-          } = target
+      // wait for all targets to be visible
+      await Promise.all(targets.map((target) => page.waitForSelector(target.cssSelector)))
 
-          const handle = await page.waitForSelector(cssSelector)
-          const rawValue = attribute
-            ? await handle.getAttribute(attribute)
-            : type === TargetType.Html
-            ? await handle.innerHTML()
-            : await handle.textContent()
-          const value = this.parseRawValue(rawValue, type)
-
-          return { cssSelector, attribute, type, value, name, description }
-        })
-      )
+      const htmlHandle = await page.$("html")
+      const html = await htmlHandle?.innerHTML()
+      if (!html) {
+        throw new Error(`Cannot extract HTML from ${url}`)
+      }
+      return this.scrapeHtml(html, targets)
     } finally {
       await page.close()
       await context.close()
@@ -86,30 +68,36 @@ export class ScraperService {
     if (res.status < 200 || res.status >= 300 || !res.data) {
       throw new Error(`Cannot GET ${url}`)
     }
-    const dom = new JSDOM(res.data)
+    return this.scrapeHtml(res.data, targets)
+  }
+
+  private scrapeHtml(html: string, targets: InputTarget[]): OutputTarget[] {
+    if (!targets.length) {
+      return [{ cssSelector: "html", type: TargetType.Html, value: html }]
+    }
+
+    const dom = new JSDOM(html)
     const { document } = dom.window
 
-    return await Promise.all(
-      targets.map((target) => {
-        const {
-          cssSelector,
-          attribute,
-          type = TargetType.String,
-          name,
-          description,
-        } = target
+    return targets.map((target) => {
+      const {
+        cssSelector,
+        attribute,
+        type = TargetType.String,
+        name,
+        description,
+      } = target
 
-        const element = document.querySelector(cssSelector)
-        const rawValue = attribute
-          ? element?.getAttribute(attribute)
-          : type === TargetType.Html
-          ? element?.innerHTML
-          : element?.textContent
-        const value = this.parseRawValue(rawValue ?? null, type)
+      const element = document.querySelector(cssSelector)
+      const rawValue = attribute
+        ? element?.getAttribute(attribute)
+        : type === TargetType.Html
+        ? element?.innerHTML
+        : element?.textContent
+      const value = this.parseRawValue(rawValue ?? null, type)
 
-        return { cssSelector, attribute, type, value, name, description }
-      })
-    )
+      return { cssSelector, attribute, type, value, name, description }
+    })
   }
 
   private parseRawValue(
