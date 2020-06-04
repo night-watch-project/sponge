@@ -5,6 +5,7 @@
 ### Features
 
 - Add `GET /` route
+- Many internal improvements
 
 ## V0.6.0
 

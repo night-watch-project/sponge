@@ -1,8 +1,12 @@
-FROM node:latest AS dev
+### STAGE 1
+
+FROM node:latest AS builder
 
 WORKDIR /usr/src/app
 
 COPY package.json ./
+
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 RUN npm install
 
@@ -10,9 +14,9 @@ COPY . .
 
 RUN npm run build
 
-#
+### STAGE 2
 
-FROM node:latest AS prod
+FROM node:latest
 
 WORKDIR /usr/src/app
 
@@ -22,7 +26,7 @@ RUN npm install --only=production
 
 COPY . .
 
-COPY --from=dev /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/dist ./dist
 
 EXPOSE 3000
 

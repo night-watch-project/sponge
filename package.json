@@ -12,11 +12,11 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "nest build",
-    "build:docker": "docker build -t night-watch-project/spider-ham .",
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start:debug": "NODE_ENV=dev nest start --watch --debug",
     "start:prod": "NODE_ENV=prod node dist/src/main",
-    "start:docker": "docker run -d -p 3000:3000 night-watch-project/spider-ham"
+    "docker:build": "docker build -t night-watch-project/spider-ham .",
+    "docker:start:prod": "docker run -d -p 3000:3000 night-watch-project/spider-ham"
   },
   "dependencies": {
     "@nestjs/common": "^7.1.2",

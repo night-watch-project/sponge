@@ -26,8 +26,8 @@ $ npm run start:dev # yarn start:dev
 #### With Docker (prod environment)
 
 ```shell
-$ npm run build:docker # yarn build:docker
-$ npm run start:docker # yarn start:docker
+$ npm run docker:build      # yarn docker:build
+$ npm run docker:start:prod # yarn docker:start:prod
 ```
 
 ## CHANGELOG
