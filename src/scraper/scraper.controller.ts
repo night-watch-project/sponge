@@ -18,7 +18,7 @@ export class ScraperController {
     const targets = await this.scraperService.scrape(
       body.url,
       body.targets ?? [],
-      body.csr
+      body.csr ?? false
     )
     return { targets }
   }
