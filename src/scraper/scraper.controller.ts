@@ -13,12 +13,22 @@ export class ScraperController {
     return { iam: "/scraper" }
   }
 
-  @Post()
-  async post(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
-    const targets = await this.scraperService.scrape(
+  @Post("csr")
+  async postCSR(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
+    const targets = await this.scraperService.scrapeCSR(
       body.url,
       body.targets ?? [],
-      body.csr ?? false,
+      body.headers,
+      body.httpProxy
+    )
+    return { targets }
+  }
+
+  @Post("ssr")
+  async postSSR(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
+    const targets = await this.scraperService.scrapeSSR(
+      body.url,
+      body.targets ?? [],
       body.headers,
       body.httpProxy
     )

@@ -5,8 +5,10 @@
 ### Features
 
 - Add `GET /` route
+- Split `POST /scraper` into `POST /scraper/csr` and `POST /scraper/ssr`
+- Remove `ScrapeCommandDto.csr` option
 - Support passing custom headers
-- Support passing HTTP proxy (only work with `ScrapeCommandDto.csr` being false for now)
+- Support passing HTTP proxy (only work with `POST /scraper/ssr` for now)
 - Many internal improvements
 
 ### Bugfixes

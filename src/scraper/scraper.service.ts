@@ -13,18 +13,7 @@ export class ScraperService {
     @Inject("HEADLESS_BROWSER") private readonly browser: FirefoxBrowser
   ) {}
 
-  public scrape(
-    url: string,
-    targets: InputTarget[],
-    csr: boolean,
-    headers?: Record<string, string>,
-    proxy?: HttpProxy
-  ): Promise<OutputTarget[]> {
-    if (csr) return this.scrapeCSR(url, targets, headers, proxy)
-    else return this.scrapeSSR(url, targets, headers, proxy)
-  }
-
-  private async scrapeCSR(
+  public async scrapeCSR(
     url: string,
     targets: InputTarget[],
     headers?: Record<string, string>,
@@ -54,7 +43,7 @@ export class ScraperService {
     }
   }
 
-  private async scrapeSSR(
+  public async scrapeSSR(
     url: string,
     targets: InputTarget[],
     headers?: Record<string, string>,
