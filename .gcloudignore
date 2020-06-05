@@ -1,8 +1,12 @@
 #!include:.gitignore
 
+# Google Cloud
 .gcloudignore
+
+# Git
 .git
 .gitignore
 
+# Dotenv files
 !.env
 !.env.*

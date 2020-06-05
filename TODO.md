@@ -3,8 +3,6 @@
 ## HIGH PRIORITY
 
 - Add `InputTarget.multiple: boolean` option to scrape all elements matched by the provided CSS selector
-- Support passing custom user-agent and HTTP proxy
-- Use external Firefox binary
 
 ## MEDIUM PRIORITY
 

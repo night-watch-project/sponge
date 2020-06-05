@@ -45,7 +45,7 @@ export class ScraperService {
   }
 
   private async scrapeSSR(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
-    const res = await this.httpService.get(url).toPromise()
+    const res = await this.httpService.get(url, { timeout: 10 * 1000 }).toPromise()
     if (res.status < 200 || res.status >= 300 || !res.data) {
       throw new Error(`Cannot send GET ${url}`)
     }

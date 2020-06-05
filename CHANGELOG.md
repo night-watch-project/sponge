@@ -5,7 +5,12 @@
 ### Features
 
 - Add `GET /` route
+- Support passing custom headers and HTTP proxy
 - Many internal improvements
+
+### Bugfixes
+
+- Fix browsers won't start inside Docker
 
 ## V0.6.0
 
