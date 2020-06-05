@@ -5,7 +5,8 @@
 ### Features
 
 - Add `GET /` route
-- Support passing custom headers and HTTP proxy
+- Support passing custom headers
+- Support passing HTTP proxy (only work with `ScrapeCommandDto.csr` being false for now)
 - Many internal improvements
 
 ### Bugfixes

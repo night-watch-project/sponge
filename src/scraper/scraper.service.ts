@@ -1,6 +1,7 @@
 import { HttpService, Inject, Injectable } from "@nestjs/common"
 import { JSDOM } from "jsdom"
 import type { FirefoxBrowser } from "playwright-firefox"
+import { HttpProxy } from "./types/http-proxy.class"
 import type { InputTarget } from "./types/input-target.class"
 import type { OutputTarget } from "./types/output-target.class"
 import { TargetType } from "./types/target-type.enum"
@@ -15,14 +16,23 @@ export class ScraperService {
   public scrape(
     url: string,
     targets: InputTarget[],
-    csr: boolean
+    csr: boolean,
+    headers?: Record<string, string>,
+    proxy?: HttpProxy
   ): Promise<OutputTarget[]> {
-    if (csr) return this.scrapeCSR(url, targets)
-    else return this.scrapeSSR(url, targets)
+    if (csr) return this.scrapeCSR(url, targets, headers, proxy)
+    else return this.scrapeSSR(url, targets, headers, proxy)
   }
 
-  private async scrapeCSR(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
-    const context = await this.browser.newContext()
+  private async scrapeCSR(
+    url: string,
+    targets: InputTarget[],
+    headers?: Record<string, string>,
+    proxy?: HttpProxy
+  ): Promise<OutputTarget[]> {
+    const context = await this.browser.newContext({
+      extraHTTPHeaders: headers,
+    })
     context.setDefaultTimeout(10 * 1000) // 10s
     const page = await context.newPage()
 
@@ -44,8 +54,15 @@ export class ScraperService {
     }
   }
 
-  private async scrapeSSR(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
-    const res = await this.httpService.get(url, { timeout: 10 * 1000 }).toPromise()
+  private async scrapeSSR(
+    url: string,
+    targets: InputTarget[],
+    headers?: Record<string, string>,
+    proxy?: HttpProxy
+  ): Promise<OutputTarget[]> {
+    const res = await this.httpService
+      .get(url, { timeout: 10 * 1000, headers, proxy })
+      .toPromise()
     if (res.status < 200 || res.status >= 300 || !res.data) {
       throw new Error(`Cannot send GET ${url}`)
     }
