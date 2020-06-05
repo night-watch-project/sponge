@@ -1,6 +1,5 @@
-import { HttpService, Injectable } from "@nestjs/common"
+import { HttpService, Inject, Injectable } from "@nestjs/common"
 import { JSDOM } from "jsdom"
-import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
 import type { InputTarget } from "./types/input-target.class"
 import type { OutputTarget } from "./types/output-target.class"
@@ -8,40 +7,22 @@ import { TargetType } from "./types/target-type.enum"
 
 @Injectable()
 export class ScraperService {
-  private browser?: FirefoxBrowser
-
-  public constructor(private readonly httpService: HttpService) {}
-
-  /**
-   * Launch browser if needed.
-   */
-  private async launchIfNeeded(): Promise<FirefoxBrowser> {
-    if (!this.browser) {
-      this.browser = await firefox.launch()
-    }
-    return this.browser
-  }
-
-  /**
-   * Close browser and all of its pages (if any were opened).
-   */
-  private async close(): Promise<void> {
-    await this.browser?.close()
-    this.browser = undefined
-  }
+  public constructor(
+    private readonly httpService: HttpService,
+    @Inject("HEADLESS_BROWSER") private readonly browser: FirefoxBrowser
+  ) {}
 
   public scrape(
     url: string,
     targets: InputTarget[],
-    csr = false
+    csr: boolean
   ): Promise<OutputTarget[]> {
     if (csr) return this.scrapeCSR(url, targets)
     else return this.scrapeSSR(url, targets)
   }
 
   private async scrapeCSR(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
-    const browser = await this.launchIfNeeded()
-    const context = await browser.newContext()
+    const context = await this.browser.newContext()
     context.setDefaultTimeout(10 * 1000) // 10s
     const page = await context.newPage()
 
@@ -66,7 +47,7 @@ export class ScraperService {
   private async scrapeSSR(url: string, targets: InputTarget[]): Promise<OutputTarget[]> {
     const res = await this.httpService.get(url).toPromise()
     if (res.status < 200 || res.status >= 300 || !res.data) {
-      throw new Error(`Cannot GET ${url}`)
+      throw new Error(`Cannot send GET ${url}`)
     }
     return this.scrapeHtml(res.data, targets)
   }
