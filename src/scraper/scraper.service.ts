@@ -99,32 +99,28 @@ export class ScraperService {
   }
 
   private scrapeHtml(html: string, targets: InputTarget[]): OutputTarget[] {
-    if (!targets.length) {
-      return [{ cssSelector: "html", type: TargetType.Html, value: html }]
-    } else {
-      const dom = new JSDOM(html)
-      const { document } = dom.window
+    const dom = new JSDOM(html)
+    const { document } = dom.window
 
-      return targets.map((target) => {
-        const {
-          cssSelector,
-          attribute,
-          type = TargetType.String,
-          name,
-          description,
-        } = target
+    return targets.map((target) => {
+      const {
+        cssSelector,
+        attribute,
+        type = TargetType.String,
+        name,
+        description,
+      } = target
 
-        const element = document.querySelector(cssSelector)
-        const rawValue = attribute
-          ? element?.getAttribute(attribute)
-          : type === TargetType.Html
-          ? element?.innerHTML
-          : element?.textContent
-        const value = this.parseRawValue(rawValue ?? null, type)
+      const element = document.querySelector(cssSelector)
+      const rawValue = attribute
+        ? element?.getAttribute(attribute)
+        : type === TargetType.Html
+        ? element?.innerHTML
+        : element?.textContent
+      const value = this.parseRawValue(rawValue ?? null, type)
 
-        return { cssSelector, attribute, type, value, name, description }
-      })
-    }
+      return { cssSelector, attribute, type, value, name, description }
+    })
   }
 
   private async scrapeMetadata(
