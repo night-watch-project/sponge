@@ -5,10 +5,9 @@
 ### Features
 
 - Add `GET /` route
-- Split `POST /scraper` into `POST /scraper/csr` and `POST /scraper/ssr`
-- Remove `ScrapeCommandDto.csr` option
-- Support passing custom headers
-- Support passing HTTP proxy (only work with `POST /scraper/ssr` for now)
+- Split `POST /scraper` into `POST /scraper/csr` and `POST /scraper/ssr`; remove `ScrapeCommandDto.csr` option
+- Support passing custom request headers
+- Support passing HTTP proxy (SSR only for now)
 - Set 10s as the default timeout when fetching pages
 - Many internal improvements
 
