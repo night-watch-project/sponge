@@ -14,26 +14,24 @@ export class ScraperController {
   }
 
   @Post("csr")
-  async postCSR(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
-    const targets = await this.scraperService.scrapeCSR(
+  postCSR(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
+    return this.scraperService.scrapeCSR(
       body.url,
       body.targets ?? [],
       body.metadata ?? false,
       body.headers,
       body.httpProxy
     )
-    return { targets }
   }
 
   @Post("ssr")
-  async postSSR(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
-    const targets = await this.scraperService.scrapeSSR(
+  postSSR(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
+    return this.scraperService.scrapeSSR(
       body.url,
       body.targets ?? [],
       body.metadata ?? false,
       body.headers,
       body.httpProxy
     )
-    return { targets }
   }
 }

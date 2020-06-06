@@ -6,6 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "CommonJS",
+    "noImplicitAny": false,
     "outDir": "dist",
     "resolveJsonModule": true,
     "strict": true,
