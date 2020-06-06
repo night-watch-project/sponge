@@ -1,6 +1,21 @@
 import { HttpService, Inject, Injectable } from "@nestjs/common"
 import { JSDOM } from "jsdom"
+import * as metaScraper from "metascraper"
+import * as metaAudio from "metascraper-audio"
+import * as metaAuthor from "metascraper-author"
+import * as metaDate from "metascraper-date"
+import * as metaDescription from "metascraper-description"
+import * as metaIframe from "metascraper-iframe"
+import * as metaImage from "metascraper-image"
+import * as metaLang from "metascraper-lang"
+import * as metaLogo from "metascraper-logo"
+import * as metaLogoFavicon from "metascraper-logo-favicon"
+import * as metaPublisher from "metascraper-publisher"
+import * as metaTitle from "metascraper-title"
+import * as metaUrl from "metascraper-url"
+import * as metaVideo from "metascraper-video"
 import type { FirefoxBrowser } from "playwright-firefox"
+import type { ScrapeResultDto } from "./dto/scrape-result.dto"
 import { HttpProxy } from "./types/http-proxy.class"
 import type { InputTarget } from "./types/input-target.class"
 import type { OutputTarget } from "./types/output-target.class"
@@ -8,6 +23,22 @@ import { TargetType } from "./types/target-type.enum"
 
 @Injectable()
 export class ScraperService {
+  private metaScraper = metaScraper([
+    metaAudio(),
+    metaAuthor(),
+    metaDate(),
+    metaDescription(),
+    metaIframe(),
+    metaImage(),
+    metaLang(),
+    metaLogo(),
+    metaLogoFavicon(),
+    metaPublisher(),
+    metaTitle(),
+    metaUrl(),
+    metaVideo(),
+  ])
+
   public constructor(
     private readonly httpService: HttpService,
     @Inject("HEADLESS_BROWSER") private readonly browser: FirefoxBrowser
@@ -16,9 +47,10 @@ export class ScraperService {
   public async scrapeCSR(
     url: string,
     targets: InputTarget[],
+    metadata: boolean,
     headers?: Record<string, string>,
     proxy?: HttpProxy
-  ): Promise<OutputTarget[]> {
+  ): Promise<ScrapeResultDto> {
     const context = await this.browser.newContext({
       extraHTTPHeaders: headers,
     })
@@ -36,7 +68,10 @@ export class ScraperService {
       if (!html) {
         throw new Error(`Cannot extract HTML from ${url}`)
       }
-      return this.scrapeHtml(html, targets)
+      const outputTargets = this.scrapeHtml(html, targets)
+      const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
+
+      return { targets: outputTargets, metadata: meta }
     } finally {
       await page.close()
       await context.close()
@@ -46,45 +81,57 @@ export class ScraperService {
   public async scrapeSSR(
     url: string,
     targets: InputTarget[],
+    metadata: boolean,
     headers?: Record<string, string>,
     proxy?: HttpProxy
-  ): Promise<OutputTarget[]> {
+  ): Promise<ScrapeResultDto> {
     const res = await this.httpService
       .get(url, { timeout: 10 * 1000, headers, proxy })
       .toPromise()
     if (res.status < 200 || res.status >= 300 || !res.data) {
       throw new Error(`Cannot send GET ${url}`)
     }
-    return this.scrapeHtml(res.data, targets)
+    const html = res.data
+    const outputTargets = this.scrapeHtml(html, targets)
+    const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
+
+    return { targets: outputTargets, metadata: meta }
   }
 
   private scrapeHtml(html: string, targets: InputTarget[]): OutputTarget[] {
     if (!targets.length) {
       return [{ cssSelector: "html", type: TargetType.Html, value: html }]
+    } else {
+      const dom = new JSDOM(html)
+      const { document } = dom.window
+
+      return targets.map((target) => {
+        const {
+          cssSelector,
+          attribute,
+          type = TargetType.String,
+          name,
+          description,
+        } = target
+
+        const element = document.querySelector(cssSelector)
+        const rawValue = attribute
+          ? element?.getAttribute(attribute)
+          : type === TargetType.Html
+          ? element?.innerHTML
+          : element?.textContent
+        const value = this.parseRawValue(rawValue ?? null, type)
+
+        return { cssSelector, attribute, type, value, name, description }
+      })
     }
+  }
 
-    const dom = new JSDOM(html)
-    const { document } = dom.window
-
-    return targets.map((target) => {
-      const {
-        cssSelector,
-        attribute,
-        type = TargetType.String,
-        name,
-        description,
-      } = target
-
-      const element = document.querySelector(cssSelector)
-      const rawValue = attribute
-        ? element?.getAttribute(attribute)
-        : type === TargetType.Html
-        ? element?.innerHTML
-        : element?.textContent
-      const value = this.parseRawValue(rawValue ?? null, type)
-
-      return { cssSelector, attribute, type, value, name, description }
-    })
+  private async scrapeMetadata(
+    url: string,
+    html: string
+  ): Promise<Record<string, unknown>> {
+    return this.metaScraper({ url, html })
   }
 
   private parseRawValue(
