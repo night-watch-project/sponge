@@ -3,7 +3,7 @@
 ## HIGH PRIORITY
 
 - Add `InputTarget.multiple: boolean` option to scrape all elements matched by the provided CSS selector
-- Add `ScrapeCommandDto.metadata` to scrape metadata
+- Add `ScrapeCommandDto.metadata: boolean` to scrape metadata
 
 ## MEDIUM PRIORITY
 

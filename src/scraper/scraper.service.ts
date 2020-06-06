@@ -16,6 +16,7 @@ export class ScraperService {
   public async scrapeCSR(
     url: string,
     targets: InputTarget[],
+    metadata: boolean,
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<OutputTarget[]> {
@@ -46,6 +47,7 @@ export class ScraperService {
   public async scrapeSSR(
     url: string,
     targets: InputTarget[],
+    metadata: boolean,
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<OutputTarget[]> {

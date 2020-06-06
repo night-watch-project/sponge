@@ -18,6 +18,7 @@ export class ScraperController {
     const targets = await this.scraperService.scrapeCSR(
       body.url,
       body.targets ?? [],
+      body.metadata ?? false,
       body.headers,
       body.httpProxy
     )
@@ -29,6 +30,7 @@ export class ScraperController {
     const targets = await this.scraperService.scrapeSSR(
       body.url,
       body.targets ?? [],
+      body.metadata ?? false,
       body.headers,
       body.httpProxy
     )
