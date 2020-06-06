@@ -110,3 +110,6 @@ dist
 .env
 .env.*
 !.env.example
+
+# Deployment configurations and scripts
+scripts
