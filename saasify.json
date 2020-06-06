@@ -1,7 +1,7 @@
 {
   "name": "spider-ham",
   "description": "Peter Porker as Spider-Ham",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "keywords": ["spider-ham", "scraper"],
   "openapi": "./dist/openapi.json",
   "authProviders": {

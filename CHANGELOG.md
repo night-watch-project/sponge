@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## NEXT
+## V0.7.0
 
 ### Features
 
@@ -9,6 +9,7 @@
 - Remove `ScrapeCommandDto.csr` option
 - Support passing custom headers
 - Support passing HTTP proxy (only work with `POST /scraper/ssr` for now)
+- Set 10s as the default timeout when fetching pages
 - Many internal improvements
 
 ### Bugfixes

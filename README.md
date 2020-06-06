@@ -6,6 +6,8 @@ Peter Porker as Spider-Ham
 
 - Get raw HTML of any web page, even client-rendered ones
 - Get text content, attribute value or inner HTML of any element with CSS selectors
+- Support passing request headers such as user-agent, cookies,...
+- Support passing HTTP proxy (SSR only for now)
 
 ## INSTALLATION
 
