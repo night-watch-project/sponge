@@ -15,7 +15,6 @@
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start:debug": "NODE_ENV=dev nest start --watch --debug",
     "start:prod": "NODE_ENV=prod node dist/src/main",
-    "docker:build:base": "docker build -t nightwatchproject/base -f Dockerfile.base .",
     "docker:build:app": "docker build -t nightwatchproject/spider-ham .",
     "docker:start:prod": "docker run -d -p 3000:3000 nightwatchproject/spider-ham"
   },
