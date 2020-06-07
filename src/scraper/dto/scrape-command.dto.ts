@@ -1,4 +1,4 @@
-import { HttpProxy } from "../types/http-proxy.class"
+import { HttpProxy } from "../../common/types/http-proxy.class"
 import { InputTarget } from "../types/input-target.class"
 
 export class ScrapeCommandDto {

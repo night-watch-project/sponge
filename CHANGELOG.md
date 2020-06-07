@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## NEXT
+
+### Features
+
+- Add `ScrapeCommandDto.metadata: boolean` option to extract metadata automatically
+- Stop adding default HTML target when `ScrapeCommandDto.targets` is not provided or empty
+- Add `POST /renderer/csr` route
+- Some internal architectural changes
+
 ## V0.7.0
 
 ### Features

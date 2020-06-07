@@ -4,10 +4,15 @@ Peter Porker as Spider-Ham
 
 ## FEATURES
 
-- Get raw HTML of any web page, even client-rendered ones
-- Get text content, attribute value or inner HTML of any element with CSS selectors
-- Support passing custom request headers such as user-agent, cookies,...
-- Support passing HTTP proxy (SSR only for now)
+### Core Features
+
+- Render and retrieve HTML of any client-side-rendered web pages
+- Scrape text content, attribute value or inner HTML of any elements with CSS selectors
+- Auto extract metadata
+- Support custom request headers such as user-agent, cookies,...
+- Support HTTP proxy _(SSR only for now)_
+
+### Live Version Features
 
 ## INSTALLATION
 
