@@ -1,14 +1,11 @@
 import { HttpModule, Module } from "@nestjs/common"
-import { HeadlessBrowser } from "./headless-browser.provider"
+import { HeadlessBrowserModule } from "../headless-browser/headless-browser.module"
 import { ScraperController } from "./scraper.controller"
 import { ScraperService } from "./scraper.service"
 
 @Module({
-  imports: [HttpModule.register({ validateStatus: () => true })],
+  imports: [HttpModule.register({ validateStatus: () => true }), HeadlessBrowserModule],
   controllers: [ScraperController],
-  providers: [
-    ScraperService,
-    { provide: "HEADLESS_BROWSER", useFactory: () => HeadlessBrowser.launch() },
-  ],
+  providers: [ScraperService],
 })
 export class ScraperModule {}

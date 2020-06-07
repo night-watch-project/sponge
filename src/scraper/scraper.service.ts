@@ -15,6 +15,7 @@ import * as metaTitle from "metascraper-title"
 import * as metaUrl from "metascraper-url"
 import * as metaVideo from "metascraper-video"
 import type { FirefoxBrowser } from "playwright-firefox"
+import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
 import type { ScrapeResultDto } from "./dto/scrape-result.dto"
 import { HttpProxy } from "./types/http-proxy.class"
 import type { InputTarget } from "./types/input-target.class"
@@ -41,7 +42,7 @@ export class ScraperService {
 
   public constructor(
     private readonly httpService: HttpService,
-    @Inject("HEADLESS_BROWSER") private readonly browser: FirefoxBrowser
+    @Inject(HeadlessBrowserProvider.providerName) private readonly browser: FirefoxBrowser
   ) {}
 
   public async scrapeCSR(
