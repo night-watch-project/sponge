@@ -1,10 +1,10 @@
-import { Controller, Get } from "@nestjs/common"
-import { IamDto } from "../common/dto/iam.dto"
+import { Controller, Get, Redirect } from "@nestjs/common"
 
 @Controller()
 export class CoreController {
   @Get()
-  get(): IamDto {
-    return { iam: "/index" }
+  @Redirect("/docs")
+  get(): void {
+    //
   }
 }
