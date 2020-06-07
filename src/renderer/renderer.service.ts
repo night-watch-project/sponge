@@ -28,7 +28,7 @@ export class RendererService {
       if (!html) {
         throw new Error(`Cannot extract HTML from ${url}`)
       }
-      return html
+      return `<!DOCTYPE HTML>${html}`
     } finally {
       await page.close()
       await context.close()
