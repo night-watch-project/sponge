@@ -16,7 +16,7 @@
     "start:debug": "NODE_ENV=dev nest start --watch --debug",
     "start:prod": "NODE_ENV=prod node dist/src/main",
     "docker:build:app": "docker build -t nightwatchproject/spider-ham .",
-    "docker:start:prod": "docker run -d -p 3000:3000 nightwatchproject/spider-ham"
+    "docker:start:prod": "docker run -d --name spider-ham -p 3000:3000 nightwatchproject/spider-ham"
   },
   "dependencies": {
     "@nestjs/common": "^7.1.2",

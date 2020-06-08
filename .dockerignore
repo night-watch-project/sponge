@@ -15,3 +15,6 @@ package-lock.json
 
 # Build output
 dist
+
+# Deployment configurations and scripts
+scripts

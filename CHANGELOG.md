@@ -5,8 +5,9 @@
 ### Features
 
 - Add `ScrapeCommandDto.metadata: boolean` option to extract metadata automatically
-- Stop adding default HTML target when `ScrapeCommandDto.targets` is not provided or empty
 - Add `POST /renderer/csr` route
+- Stop adding default HTML target when `ScrapeCommandDto.targets` is not provided or empty
+- Remove meaningless routes and redirect `GET /` to `GET /docs`
 - Some internal architectural changes
 
 ## V0.7.0

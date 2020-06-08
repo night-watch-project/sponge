@@ -8,3 +8,6 @@ RUN apt install -y nodejs
 
 # Install Firefox to make sure all of its dependencies are satisfied
 RUN apt install -y firefox
+
+# ...but remove Firefox itself
+RUN dpkg -r firefox
