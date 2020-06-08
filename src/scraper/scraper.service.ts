@@ -74,7 +74,6 @@ export class ScraperService {
 
       return { targets: outputTargets, metadata: meta }
     } finally {
-      await page.close()
       await context.close()
     }
   }

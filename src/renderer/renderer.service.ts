@@ -30,7 +30,6 @@ export class RendererService {
       }
       return `<!DOCTYPE HTML>${html}`
     } finally {
-      await page.close()
       await context.close()
     }
   }
