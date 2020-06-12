@@ -11,6 +11,7 @@ import * as metaLang from "metascraper-lang"
 import * as metaLogo from "metascraper-logo"
 import * as metaLogoFavicon from "metascraper-logo-favicon"
 import * as metaPublisher from "metascraper-publisher"
+import * as metaReadability from "metascraper-readability"
 import * as metaTitle from "metascraper-title"
 import * as metaUrl from "metascraper-url"
 import * as metaVideo from "metascraper-video"
@@ -35,6 +36,7 @@ export class ScraperService {
     metaLogo(),
     metaLogoFavicon(),
     metaPublisher(),
+    metaReadability(),
     metaTitle(),
     metaUrl(),
     metaVideo(),

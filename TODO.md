@@ -4,7 +4,6 @@
 
 - Add `InputTarget.multiple: boolean` option to scrape all elements matched by the provided CSS selector
 - Support HTTP proxy for CSR
-- Auto extract main content
 
 ## MEDIUM PRIORITY
 

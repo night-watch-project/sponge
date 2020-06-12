@@ -5,9 +5,9 @@
 ### Features
 
 - Rename project to **Sponge**
-- Add `ScrapeCommandDto.metadata: boolean` option to extract metadata automatically
+- Add `ScrapeCommandDto.metadata: boolean` option to auto extract metadata and content of articles
 - Add `POST /renderer/csr` route
-- Stop adding default HTML target when `ScrapeCommandDto.targets` is not provided or empty
+- Remove default HTML target when `ScrapeCommandDto.targets` is not provided or empty
 - Remove meaningless routes and redirect `GET /` to `GET /docs`
 - Some internal architectural changes
 
