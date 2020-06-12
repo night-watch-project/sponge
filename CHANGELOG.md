@@ -4,6 +4,7 @@
 
 ### Features
 
+- Rename project to **Sponge**
 - Add `ScrapeCommandDto.metadata: boolean` option to extract metadata automatically
 - Add `POST /renderer/csr` route
 - Stop adding default HTML target when `ScrapeCommandDto.targets` is not provided or empty

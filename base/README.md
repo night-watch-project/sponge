@@ -1,3 +1,3 @@
-# base
+# Base
 
-Base Docker image for Spider-Ham
+Base Docker image for Sponge.

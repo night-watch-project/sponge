@@ -1,6 +1,6 @@
-# spider-ham
+# Sponge
 
-Peter Porker as Spider-Ham
+Hassle-free web scraping service.
 
 ## FEATURES
 
@@ -19,7 +19,7 @@ Peter Porker as Spider-Ham
 ### Requirements
 
 - Node.js >= 14
-- Environment variables specified in [.env.example](https://github.com/night-watch-project/spider-ham/blob/master/.env.example)
+- Environment variables specified in [.env.example](https://github.com/night-watch-project/sponge/blob/master/.env.example)
 
 ### Instructions
 
@@ -39,8 +39,8 @@ $ npm run docker:start:prod # yarn docker:start:prod
 
 ## CHANGELOG
 
-Read more [here](https://github.com/night-watch-project/spider-ham/blob/master/CHANGELOG.md).
+Read more [here](https://github.com/night-watch-project/sponge/blob/master/CHANGELOG.md).
 
 ## TODO
 
-Read more [here](https://github.com/night-watch-project/spider-ham/blob/master/TODO.md).
+Read more [here](https://github.com/night-watch-project/sponge/blob/master/TODO.md).

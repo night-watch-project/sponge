@@ -1,11 +1,11 @@
 {
   "private": true,
-  "name": "spider-ham",
-  "description": "Peter Porker as Spider-Ham",
+  "name": "sponge",
+  "description": "Hassle-free web scraping service.",
   "version": "0.7.0",
   "author": "Night Watch Project",
   "license": "MIT",
-  "repository": "git@github.com:night-watch-project/spider-ham.git",
+  "repository": "git@github.com:night-watch-project/sponge.git",
   "engines": {
     "node": ">=14"
   },
@@ -15,8 +15,8 @@
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start:debug": "NODE_ENV=dev nest start --watch --debug",
     "start:prod": "NODE_ENV=prod node dist/src/main",
-    "docker:build:app": "docker build -t nightwatchproject/spider-ham .",
-    "docker:start:prod": "docker run -d --name spider-ham -p 3000:3000 nightwatchproject/spider-ham"
+    "docker:build:app": "docker build -t nightwatchproject/sponge .",
+    "docker:start:prod": "docker run -d --name sponge -p 3000:3000 nightwatchproject/sponge"
   },
   "dependencies": {
     "@nestjs/common": "^7.1.2",
