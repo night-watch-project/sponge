@@ -12,6 +12,7 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "nest build",
+    "start": "NODE_ENV=dev nest start",
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start:debug": "NODE_ENV=dev nest start --watch --debug",
     "start:prod": "NODE_ENV=prod node dist/src/main",

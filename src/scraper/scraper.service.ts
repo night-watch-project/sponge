@@ -88,7 +88,23 @@ export class ScraperService {
     proxy?: HttpProxy
   ): Promise<ScrapeResultDto> {
     const res = await this.httpService
-      .get(url, { timeout: 10 * 1000, headers, proxy })
+      .get(url, {
+        timeout: 10 * 1000,
+        headers,
+        proxy: proxy
+          ? {
+              host: proxy.host,
+              port: proxy.port,
+              auth:
+                proxy.username && proxy.password
+                  ? {
+                      username: proxy.username,
+                      password: proxy.password,
+                    }
+                  : undefined,
+            }
+          : undefined,
+      })
       .toPromise()
     if (res.status < 200 || res.status >= 300 || !res.data) {
       throw new Error(`Cannot send GET ${url}`)
