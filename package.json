@@ -23,7 +23,7 @@
     "@nestjs/common": "^7.1.2",
     "@nestjs/core": "^7.1.2",
     "@nestjs/platform-fastify": "^7.1.2",
-    "@nestjs/swagger": "^4.5.9",
+    "@nestjs/swagger": "^4.5.10",
     "@night-watch-project/metascraper-readability": "github:night-watch-project/metascraper-readability",
     "dotenv-flow": "^3.1.0",
     "fastify-swagger": "^2.6.0",
