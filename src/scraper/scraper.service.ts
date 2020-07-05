@@ -51,6 +51,7 @@ export class ScraperService {
     url: string,
     targets: InputTarget[],
     metadata: boolean,
+    blockAds: boolean,
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<ScrapeResultDto> {
@@ -58,6 +59,9 @@ export class ScraperService {
       extraHTTPHeaders: headers,
     })
     context.setDefaultTimeout(10 * 1000) // 10s
+    if (blockAds) {
+      // BLOCK ADS
+    }
     const page = await context.newPage()
 
     try {

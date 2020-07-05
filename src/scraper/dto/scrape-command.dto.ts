@@ -9,6 +9,9 @@ export class ScrapeCommandDto {
   @ApiProperty({ type: "boolean" }) // manually annotated as @nestjs/swagger doesn't recognize boolean
   metadata?: boolean = false
 
+  @ApiProperty({ type: "boolean" })
+  blockAds?: boolean = true
+
   headers?: Record<string, string>
   httpProxy?: HttpProxy
 }

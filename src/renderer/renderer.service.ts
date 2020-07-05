@@ -11,6 +11,7 @@ export class RendererService {
 
   public async renderCSR(
     url: string,
+    blockAds: boolean,
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<string> {
@@ -18,6 +19,9 @@ export class RendererService {
       extraHTTPHeaders: headers,
     })
     context.setDefaultTimeout(10 * 1000) // 10s
+    if (blockAds) {
+      // BLOCK ADS
+    }
     const page = await context.newPage()
 
     try {
