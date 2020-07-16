@@ -42,7 +42,7 @@
     "metascraper-title": "^5.11.21",
     "metascraper-url": "^5.11.21",
     "metascraper-video": "^5.11.21",
-    "playwright-firefox": "^1.0.2",
+    "playwright-firefox": "^1.2.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.5"
   },

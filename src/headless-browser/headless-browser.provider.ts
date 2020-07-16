@@ -11,7 +11,7 @@ export class HeadlessBrowserProvider {
   /**
    * Launch browser if needed.
    */
-  public static async launch(): Promise<FirefoxBrowser> {
+  public static async init(): Promise<FirefoxBrowser> {
     if (!HeadlessBrowserProvider.browser) {
       HeadlessBrowserProvider.browser = await firefox.launch()
     }
