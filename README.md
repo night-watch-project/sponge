@@ -7,10 +7,10 @@ Hassle-free web scraping service.
 ### Core Features
 
 - Render client-side-rendered web pages
-- Ad blocking
+- Domain blocking
 - Auto extract metadata and article content
 - Extract text content, attribute value or inner HTML of any elements via CSS selectors
-- Support custom request headers such as user-agent, cookies,...
+- Support custom request headers like user-agent, cookies,...
 - Support HTTP proxy _(SSR only for now)_
 
 ### Live Version Features
