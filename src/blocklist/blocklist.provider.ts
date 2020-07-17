@@ -10,9 +10,8 @@ export class BlocklistProvider {
   public static async init(httpService: HttpService): Promise<Set<string>> {
     // cannot put this line at the head of the file as env vars won't be fully populated
     const { BLOCKLIST_URL } = process.env
-    const res = await httpService
-      .get(BLOCKLIST_URL as string, { timeout: 10 * 1000 })
-      .toPromise()
+
+    const res = await httpService.get(BLOCKLIST_URL as string).toPromise()
     if (res.status < 200 || res.status >= 300 || !res.data) {
       throw new Error(`Cannot fetch blocklist from ${BLOCKLIST_URL}`)
     }

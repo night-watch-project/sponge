@@ -8,7 +8,7 @@ import { ScraperService } from "./scraper.service"
   imports: [
     BlocklistModule,
     HeadlessBrowserModule,
-    HttpModule.register({ validateStatus: () => true }),
+    HttpModule.register({ timeout: 10000, validateStatus: () => true }),
   ],
   controllers: [ScraperController],
   providers: [ScraperService],

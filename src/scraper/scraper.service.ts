@@ -102,7 +102,6 @@ export class ScraperService {
   ): Promise<ScrapeResultDto> {
     const res = await this.httpService
       .get(url, {
-        timeout: 10 * 1000,
         headers,
         proxy: proxy
           ? {

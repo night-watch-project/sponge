@@ -10,7 +10,7 @@ const providers = [
 ]
 
 @Module({
-  imports: [HttpModule.register({ validateStatus: () => true })],
+  imports: [HttpModule.register({ timeout: 10000, validateStatus: () => true })],
   providers,
   exports: providers,
 })
