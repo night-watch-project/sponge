@@ -1,15 +1,15 @@
 import { HttpService } from "@nestjs/common"
 
-const { BLOCKLIST_URL } = process.env
-
 export class BlocklistProvider {
-  private static domains = new Set<string>()
+  private static blocklist = new Set<string>()
 
   public static get providerName(): string {
     return "BLOCKLIST"
   }
 
   public static async init(httpService: HttpService): Promise<Set<string>> {
+    // cannot put this line at the head of the file as env vars won't be fully populated
+    const { BLOCKLIST_URL } = process.env
     const res = await httpService
       .get(BLOCKLIST_URL as string, { timeout: 10 * 1000 })
       .toPromise()
@@ -23,8 +23,8 @@ export class BlocklistProvider {
         continue
       }
       const domain = l.split(" ")[1]
-      BlocklistProvider.domains.add(domain)
+      BlocklistProvider.blocklist.add(domain)
     }
-    return BlocklistProvider.domains
+    return BlocklistProvider.blocklist
   }
 }
