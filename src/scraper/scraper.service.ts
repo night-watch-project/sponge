@@ -1,4 +1,4 @@
-import { HttpService, Inject, Injectable } from "@nestjs/common"
+import { HttpService, Injectable } from "@nestjs/common"
 import metaReadability from "@night-watch-project/metascraper-readability"
 import { JSDOM } from "jsdom"
 import * as metaScraper from "metascraper"
@@ -15,10 +15,8 @@ import * as metaPublisher from "metascraper-publisher"
 import * as metaTitle from "metascraper-title"
 import * as metaUrl from "metascraper-url"
 import * as metaVideo from "metascraper-video"
-import type { FirefoxBrowser } from "playwright-firefox"
-import { BlocklistProvider } from "../blocklist/blocklist.provider"
 import { HttpProxy } from "../common/types/http-proxy.class"
-import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
+import { RendererService } from "../renderer/renderer.service"
 import type { ScrapeResultDto } from "./dto/scrape-result.dto"
 import type { InputTarget } from "./types/input-target.class"
 import type { OutputTarget } from "./types/output-target.class"
@@ -45,8 +43,7 @@ export class ScraperService {
 
   public constructor(
     private readonly httpService: HttpService,
-    @Inject(BlocklistProvider.providerName) private readonly blocklist: Set<string>,
-    @Inject(HeadlessBrowserProvider.providerName) private readonly browser: FirefoxBrowser
+    private readonly rendererService: RendererService
   ) {}
 
   public async scrapeCSR(
@@ -57,40 +54,8 @@ export class ScraperService {
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<ScrapeResultDto> {
-    const context = await this.browser.newContext({
-      extraHTTPHeaders: headers,
-    })
-    context.setDefaultTimeout(10 * 1000) // 10s
-    if (blockAds) {
-      context.route("**", (route) => {
-        const url = new URL(route.request().url())
-        if (this.blocklist.has(url.hostname)) {
-          route.abort()
-        } else {
-          route.continue()
-        }
-      })
-    }
-    const page = await context.newPage()
-
-    try {
-      await page.goto(url)
-
-      // wait for all targets to be visible
-      await Promise.all(targets.map((target) => page.waitForSelector(target.cssSelector)))
-
-      const htmlHandle = await page.$("html")
-      const html = await htmlHandle?.innerHTML()
-      if (!html) {
-        throw new Error(`Cannot extract HTML from ${url}`)
-      }
-      const outputTargets = this.scrapeHtml(html, targets)
-      const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
-
-      return { targets: outputTargets, metadata: meta }
-    } finally {
-      await context.close()
-    }
+    const html = await this.rendererService.renderCSR(url, blockAds, headers, proxy)
+    return this.scrapeWithHtml(url, targets, metadata, html)
   }
 
   public async scrapeSSR(
@@ -122,13 +87,21 @@ export class ScraperService {
       throw new Error(`Cannot send GET ${url}`)
     }
     const html = res.data
-    const outputTargets = this.scrapeHtml(html, targets)
-    const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
+    return this.scrapeWithHtml(url, targets, metadata, html)
+  }
 
+  private async scrapeWithHtml(
+    url: string,
+    targets: InputTarget[],
+    metadata: boolean,
+    html: string
+  ): Promise<ScrapeResultDto> {
+    const outputTargets = this.scrapeHtml(targets, html)
+    const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
     return { targets: outputTargets, metadata: meta }
   }
 
-  private scrapeHtml(html: string, targets: InputTarget[]): OutputTarget[] {
+  private scrapeHtml(targets: InputTarget[], html: string): OutputTarget[] {
     const dom = new JSDOM(html)
     const { document } = dom.window
 

@@ -8,5 +8,6 @@ import { RendererService } from "./renderer.service"
   imports: [BlocklistModule, HeadlessBrowserModule],
   controllers: [RendererController],
   providers: [RendererService],
+  exports: [RendererService],
 })
 export class RendererModule {}
