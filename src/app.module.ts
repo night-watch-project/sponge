@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common"
-import { CoreModule } from "./core/core.module"
+import { AppController } from "./app.controller"
 import { RendererModule } from "./renderer/renderer.module"
 import { ScraperModule } from "./scraper/scraper.module"
 
-@Module({ imports: [CoreModule, RendererModule, ScraperModule] })
+@Module({ imports: [RendererModule, ScraperModule], controllers: [AppController] })
 export class AppModule {}

@@ -11,6 +11,10 @@
 - Remove meaningless routes and redirect `GET /` to `GET /docs`
 - Some internal architectural changes
 
+### Bugfixes
+
+- Fix @nestjs/swagger not recognize boolean type
+
 ## V0.7.0
 
 ### Features

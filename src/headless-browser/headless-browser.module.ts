@@ -4,7 +4,7 @@ import { HeadlessBrowserProvider } from "./headless-browser.provider"
 const providers = [
   {
     provide: HeadlessBrowserProvider.providerName,
-    useFactory: () => HeadlessBrowserProvider.launch(),
+    useFactory: () => HeadlessBrowserProvider.init(),
   },
 ]
 

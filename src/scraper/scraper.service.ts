@@ -16,6 +16,7 @@ import * as metaTitle from "metascraper-title"
 import * as metaUrl from "metascraper-url"
 import * as metaVideo from "metascraper-video"
 import type { FirefoxBrowser } from "playwright-firefox"
+import { BlocklistProvider } from "../blocklist/blocklist.provider"
 import { HttpProxy } from "../common/types/http-proxy.class"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
 import type { ScrapeResultDto } from "./dto/scrape-result.dto"
@@ -44,6 +45,7 @@ export class ScraperService {
 
   public constructor(
     private readonly httpService: HttpService,
+    @Inject(BlocklistProvider.providerName) private readonly blocklist: Set<string>,
     @Inject(HeadlessBrowserProvider.providerName) private readonly browser: FirefoxBrowser
   ) {}
 
@@ -51,6 +53,7 @@ export class ScraperService {
     url: string,
     targets: InputTarget[],
     metadata: boolean,
+    blockAds: boolean,
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<ScrapeResultDto> {
@@ -58,6 +61,16 @@ export class ScraperService {
       extraHTTPHeaders: headers,
     })
     context.setDefaultTimeout(10 * 1000) // 10s
+    if (blockAds) {
+      context.route("**", (route) => {
+        const url = new URL(route.request().url())
+        if (this.blocklist.has(url.hostname)) {
+          route.abort()
+        } else {
+          route.continue()
+        }
+      })
+    }
     const page = await context.newPage()
 
     try {
@@ -88,7 +101,23 @@ export class ScraperService {
     proxy?: HttpProxy
   ): Promise<ScrapeResultDto> {
     const res = await this.httpService
-      .get(url, { timeout: 10 * 1000, headers, proxy })
+      .get(url, {
+        timeout: 10 * 1000,
+        headers,
+        proxy: proxy
+          ? {
+              host: proxy.host,
+              port: proxy.port,
+              auth:
+                proxy.username && proxy.password
+                  ? {
+                      username: proxy.username,
+                      password: proxy.password,
+                    }
+                  : undefined,
+            }
+          : undefined,
+      })
       .toPromise()
     if (res.status < 200 || res.status >= 300 || !res.data) {
       throw new Error(`Cannot send GET ${url}`)

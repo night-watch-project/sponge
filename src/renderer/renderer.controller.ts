@@ -8,6 +8,11 @@ export class RendererController {
 
   @Post("csr")
   postCSR(@Body() body: RenderCommandDto): Promise<string> {
-    return this.rendererService.renderCSR(body.url, body.headers, body.httpProxy)
+    return this.rendererService.renderCSR(
+      body.url,
+      body.blockAds ?? true,
+      body.headers,
+      body.httpProxy
+    )
   }
 }
