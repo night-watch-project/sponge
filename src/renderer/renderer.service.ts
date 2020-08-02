@@ -1,4 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common"
+import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
 import { BlocklistProvider } from "../blocklist/blocklist.provider"
 import { HttpProxy } from "../common/types/http-proxy.class"
@@ -17,9 +18,24 @@ export class RendererService {
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<string> {
-    const context = await this.browser.newContext({
-      extraHTTPHeaders: headers,
-    })
+    let proxyBrowser
+    let context
+    if (proxy) {
+      proxyBrowser = await firefox.launch({
+        proxy: {
+          server: `${proxy.host}:${proxy.port}`,
+          username: proxy.username,
+          password: proxy.password,
+        },
+      })
+      context = await proxyBrowser.newContext({
+        extraHTTPHeaders: headers,
+      })
+    } else {
+      context = await this.browser.newContext({
+        extraHTTPHeaders: headers,
+      })
+    }
     context.setDefaultTimeout(10 * 1000) // 10s
     if (blockAds) {
       context.route("**", (route) => {
@@ -43,7 +59,11 @@ export class RendererService {
       }
       return `<!DOCTYPE HTML>${html}`
     } finally {
-      await context.close()
+      if (proxy) {
+        proxyBrowser.close()
+      } else {
+        await context.close()
+      }
     }
   }
 }
