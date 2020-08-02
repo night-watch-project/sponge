@@ -10,7 +10,7 @@ export class RendererService {
   public constructor(
     @Inject(BlocklistProvider.providerName) private readonly blocklist: Set<string>,
     @Inject(HeadlessBrowserProvider.providerName) private readonly browser: FirefoxBrowser
-  ) { }
+  ) {}
 
   public async renderCSR(
     url: string,
@@ -18,15 +18,15 @@ export class RendererService {
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<string> {
-    let proxyBrowser;
-    let context;
+    let proxyBrowser
+    let context
     if (proxy) {
       proxyBrowser = await firefox.launch({
         proxy: {
           server: `${proxy.host}:${proxy.port}`,
           username: proxy.username,
           password: proxy.password,
-        }
+        },
       })
       context = await proxyBrowser.newContext({
         extraHTTPHeaders: headers,
