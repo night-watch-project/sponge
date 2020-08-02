@@ -96,12 +96,12 @@ export class ScraperService {
     metadata: boolean,
     html: string
   ): Promise<ScrapeResultDto> {
-    const outputTargets = this.scrapeHtml(targets, html)
+    const outputTargets = this.scrapeTargets(targets, html)
     const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
     return { targets: outputTargets, metadata: meta }
   }
 
-  private scrapeHtml(targets: InputTarget[], html: string): OutputTarget[] {
+  private scrapeTargets(targets: InputTarget[], html: string): OutputTarget[] {
     const dom = new JSDOM(html)
     const { document } = dom.window
 
