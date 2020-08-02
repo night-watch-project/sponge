@@ -7,11 +7,11 @@ Hassle-free web scraping service.
 ### Core Features
 
 - Render client-side-rendered web pages
-- Domain blocking
 - Auto extract metadata and article content
 - Extract text content, attribute value or inner HTML of any elements via CSS selectors
-- Support custom request headers like user-agent, cookies,...
-- Support HTTP proxy
+- Domain blocking when `BLOCKLIST_URL` environment variable provided
+- Custom request headers like user-agent, cookies,...
+- HTTP proxy
 
 ### Live Version Features
 
@@ -39,6 +39,10 @@ $ npm run start:dev # yarn start:dev
 $ npm run docker:build:app  # yarn docker:build:app
 $ npm run docker:start:prod # yarn docker:start:prod
 ```
+
+## USAGE
+
+Start the app and go to `/docs` for interactive API documentation.
 
 ## CHANGELOG
 
