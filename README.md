@@ -11,7 +11,7 @@ Hassle-free web scraping service.
 - Auto extract metadata and article content
 - Extract text content, attribute value or inner HTML of any elements via CSS selectors
 - Support custom request headers like user-agent, cookies,...
-- Support HTTP proxy _(SSR only for now)_
+- Support HTTP proxy
 
 ### Live Version Features
 

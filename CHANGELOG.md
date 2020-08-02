@@ -5,9 +5,10 @@
 ### Features
 
 - Rename project to **Sponge**
-- Add `ScrapeCommandDto.metadata: boolean` option to auto extract metadata and content of articles
+- Add `ScrapeCommandDto.metadata: boolean` option to auto extract metadata and article content
 - Add `POST /renderer/csr` route
 - Add domain blocking feature
+- Support HTTP proxy for CSR
 - Remove default HTML target when `ScrapeCommandDto.targets` is not provided or empty
 - Remove meaningless routes and redirect `GET /` to `GET /docs`
 - Some internal architectural changes
