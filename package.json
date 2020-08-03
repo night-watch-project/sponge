@@ -20,13 +20,13 @@
     "docker:start:prod": "docker run -d --name sponge -p 3000:3000 nightwatchproject/sponge"
   },
   "dependencies": {
-    "@nestjs/common": "^7.1.2",
-    "@nestjs/core": "^7.1.2",
-    "@nestjs/platform-fastify": "^7.1.2",
-    "@nestjs/swagger": "^4.5.10",
+    "@nestjs/common": "^7.4.2",
+    "@nestjs/core": "^7.4.2",
+    "@nestjs/platform-fastify": "^7.4.2",
+    "@nestjs/swagger": "^4.5.12",
     "@night-watch-project/metascraper-readability": "github:night-watch-project/metascraper-readability",
     "dotenv-flow": "^3.1.0",
-    "fastify-swagger": "^2.6.0",
+    "fastify-swagger": "^3.1.2",
     "jsdom": "^16.2.2",
     "metascraper": "^5.12.6",
     "metascraper-audio": "^5.11.21",
@@ -47,7 +47,7 @@
     "rxjs": "^6.5.5"
   },
   "devDependencies": {
-    "@nestjs/cli": "^7.2.0",
+    "@nestjs/cli": "^7.4.1",
     "@types/dotenv-flow": "^3.0.0",
     "@types/jsdom": "^16.2.3",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
