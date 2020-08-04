@@ -21,6 +21,7 @@ import type { ScrapeResultDto } from "./dto/scrape-result.dto"
 import type { InputTarget } from "./types/input-target.class"
 import type { OutputTarget } from "./types/output-target.class"
 import { TargetType } from "./types/target-type.enum"
+import { TargetItem } from "./types/target-item.class"
 
 @Injectable()
 export class ScraperService {
@@ -96,12 +97,12 @@ export class ScraperService {
     metadata: boolean,
     html: string
   ): Promise<ScrapeResultDto> {
-    const outputTargets = this.scrapeTargets(targets, html)
+    const outputTargets = this.scrapeHtml(targets, html)
     const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
     return { targets: outputTargets, metadata: meta }
   }
 
-  private scrapeTargets(targets: InputTarget[], html: string): OutputTarget[] {
+  private scrapeHtml(targets: InputTarget[], html: string): OutputTarget[] {
     const dom = new JSDOM(html)
     const { document } = dom.window
 
@@ -112,17 +113,25 @@ export class ScraperService {
         type = TargetType.String,
         name,
         description,
+        multiple,
       } = target
+      let output: OutputTarget
 
-      const element = document.querySelector(cssSelector)
-      const rawValue = attribute
-        ? element?.getAttribute(attribute)
-        : type === TargetType.Html
-        ? element?.innerHTML
-        : element?.textContent
-      const value = this.parseRawValue(rawValue ?? null, type)
+      if (multiple) {
+        const elements = document.querySelectorAll(cssSelector)
+        const targets: TargetItem[] = []
+        elements.forEach((element, i) => {
+          const value = this.scrapeElementValue(element, type, attribute)
+          targets.push({ index: i, value: value })
+        })
+        output = { cssSelector, attribute, type, targets, name, description }
+      } else {
+        const element = document.querySelector(cssSelector)
+        const value = this.scrapeElementValue(element, type, attribute)
+        output = { cssSelector, attribute, type, value, name, description }
+      }
 
-      return { cssSelector, attribute, type, value, name, description }
+      return output
     })
   }
 
@@ -131,6 +140,19 @@ export class ScraperService {
     html: string
   ): Promise<Record<string, unknown>> {
     return this.metaScraper({ url, html })
+  }
+
+  private scrapeElementValue(
+    element: Element | null,
+    type: TargetType,
+    attribute?: string
+  ) {
+    const rawValue = attribute
+      ? element?.getAttribute(attribute)
+      : type === TargetType.Html
+      ? element?.innerHTML
+      : element?.textContent
+    return this.parseRawValue(rawValue ?? null, type)
   }
 
   private parseRawValue(

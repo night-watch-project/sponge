@@ -6,4 +6,5 @@ export class InputTarget {
   type?: TargetType = TargetType.String
   name?: string
   description?: string
+  multiple?: boolean
 }
