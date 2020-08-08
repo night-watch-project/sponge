@@ -1,5 +1,4 @@
 import { TargetType } from "./target-type.enum"
-import { TargetItem } from "./target-item.class"
 
 export class OutputTarget {
   cssSelector: string
@@ -7,5 +6,5 @@ export class OutputTarget {
   type: TargetType
   name?: string
   description?: string
-  values?: TargetItem[]
+  values?: Array<string | number | null>
 }

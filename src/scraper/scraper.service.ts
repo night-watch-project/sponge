@@ -21,7 +21,6 @@ import type { ScrapeResultDto } from "./dto/scrape-result.dto"
 import type { InputTarget } from "./types/input-target.class"
 import type { OutputTarget } from "./types/output-target.class"
 import { TargetType } from "./types/target-type.enum"
-import { TargetItem } from "./types/target-item.class"
 
 @Injectable()
 export class ScraperService {
@@ -116,13 +115,13 @@ export class ScraperService {
         multiple,
       } = target
       let output: OutputTarget
-      const values: TargetItem[] = []
+      const values: Array<string | number | null> = []
       if (multiple) {
         const elements = document.querySelectorAll(cssSelector)
-        elements.forEach((element, i) => {
+        elements.forEach((element) => {
           const value = this.scrapeElementValue(element, type, attribute)
           if (value) {
-            values.push({ index: i, value: value })
+            values.push(value)
           }
         })
         output = { cssSelector, attribute, type, values, name, description }
@@ -130,7 +129,7 @@ export class ScraperService {
         const element = document.querySelector(cssSelector)
         const value = this.scrapeElementValue(element, type, attribute)
         if (value) {
-          values.push({ index: 0, value: value })
+          values.push(value)
         }
         output = { cssSelector, attribute, type, values, name, description }
       }
