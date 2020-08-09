@@ -7,5 +7,5 @@ export class OutputTarget {
   attribute?: string
   type: TargetType
   multiple: boolean
-  values: Array<string | number>
+  values: Array<string | number | null>
 }
