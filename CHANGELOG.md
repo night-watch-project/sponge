@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Next
+## v1.0.0-canary.0
 
 ### Added
 
