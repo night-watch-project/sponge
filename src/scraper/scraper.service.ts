@@ -114,26 +114,17 @@ export class ScraperService {
         description,
         multiple,
       } = target
-      let output: OutputTarget
       const values: Array<string | number | null> = []
-      if (multiple) {
-        const elements = document.querySelectorAll(cssSelector)
-        elements.forEach((element) => {
-          const value = this.scrapeElementValue(element, type, attribute)
-          if (value) {
-            values.push(value)
-          }
-        })
-        output = { cssSelector, attribute, type, values, name, description }
-      } else {
-        const element = document.querySelector(cssSelector)
+      const elements = multiple
+        ? document.querySelectorAll(cssSelector)
+        : [document.querySelector(cssSelector)]
+      elements.forEach((element: Element | null) => {
         const value = this.scrapeElementValue(element, type, attribute)
         if (value) {
           values.push(value)
         }
-        output = { cssSelector, attribute, type, values, name, description }
-      }
-      return output
+      })
+      return { cssSelector, attribute, type, values, name, description }
     })
   }
 
