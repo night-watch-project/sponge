@@ -2,18 +2,25 @@
 
 ## NEXT
 
-### Features
+### Added
 
-- Rename project to **Sponge**
-- Add `ScrapeCommandDto.metadata: boolean` option to auto extract metadata and article content
 - Add `POST /renderer/csr` route
+- Add `ScrapeCommandDto.metadata: boolean` option to auto extract metadata and article content
+- Add `InputTarget.multiple: boolean` option to scrape all elements matched by the provided CSS selector
 - Add domain blocking feature
 - Support HTTP proxy for CSR
-- Remove default HTML target when `ScrapeCommandDto.targets` is not provided or empty
-- Remove meaningless routes and redirect `GET /` to `GET /docs`
+
+### Changed
+
+- Rename project to **Sponge**
 - Some internal architectural changes
 
-### Bugfixes
+### Removed
+
+- Remove default HTML target when `ScrapeCommandDto.targets` is not provided or empty
+- Remove meaningless routes and redirect `GET /` to `GET /docs`
+
+### Fixed
 
 - Fix @nestjs/swagger not recognize boolean type
 

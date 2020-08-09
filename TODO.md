@@ -2,7 +2,9 @@
 
 ## HIGH PRIORITY
 
-- Add `InputTarget.multiple: boolean` option to scrape all elements matched by the provided CSS selector
+- Cache headless browsers using user data directories
+- Universal cache
+- Built-in user-agent and HTTP proxy pool
 
 ## MEDIUM PRIORITY
 
@@ -10,6 +12,4 @@
 
 ## LOW PRIORITY
 
-- Cache using user data directories
-- Universal cache with Redis
 - Support DOM extraction expression evaluators like [Surgeon](https://github.com/gajus/surgeon)
