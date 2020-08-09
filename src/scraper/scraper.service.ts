@@ -112,17 +112,19 @@ export class ScraperService {
         type = TargetType.String,
         name,
         description,
+        multiple,
       } = target
-
-      const element = document.querySelector(cssSelector)
-      const rawValue = attribute
-        ? element?.getAttribute(attribute)
-        : type === TargetType.Html
-        ? element?.innerHTML
-        : element?.textContent
-      const value = this.parseRawValue(rawValue ?? null, type)
-
-      return { cssSelector, attribute, type, value, name, description }
+      const values: Array<string | number | null> = []
+      const elements = multiple
+        ? document.querySelectorAll(cssSelector)
+        : [document.querySelector(cssSelector)]
+      elements.forEach((element: Element | null) => {
+        const value = this.scrapeElementValue(element, type, attribute)
+        if (value) {
+          values.push(value)
+        }
+      })
+      return { cssSelector, attribute, type, values, name, description, multiple }
     })
   }
 
@@ -131,6 +133,19 @@ export class ScraperService {
     html: string
   ): Promise<Record<string, unknown>> {
     return this.metaScraper({ url, html })
+  }
+
+  private scrapeElementValue(
+    element: Element | null,
+    type: TargetType,
+    attribute?: string
+  ) {
+    const rawValue = attribute
+      ? element?.getAttribute(attribute)
+      : type === TargetType.Html
+      ? element?.innerHTML
+      : element?.textContent
+    return this.parseRawValue(rawValue ?? null, type)
   }
 
   private parseRawValue(

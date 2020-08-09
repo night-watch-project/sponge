@@ -4,7 +4,8 @@ export class OutputTarget {
   cssSelector: string
   attribute?: string
   type: TargetType
-  value: string | number | null
   name?: string
   description?: string
+  values: Array<string | number | null>
+  multiple?: boolean = false
 }
