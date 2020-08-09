@@ -2,6 +2,7 @@ FROM ubuntu
 RUN apt update
 
 # Install Node.js 14
+RUN apt install -y git
 RUN apt install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt install -y nodejs
