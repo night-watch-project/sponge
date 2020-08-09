@@ -107,14 +107,14 @@ export class ScraperService {
 
     return targets.map((target) => {
       const {
+        name,
+        description,
         cssSelector,
         attribute,
         type = TargetType.String,
-        name,
-        description,
-        multiple,
+        multiple = false,
       } = target
-      const values: Array<string | number | null> = []
+      const values: Array<string | number> = []
       const elements = multiple
         ? document.querySelectorAll(cssSelector)
         : [document.querySelector(cssSelector)]
@@ -124,7 +124,7 @@ export class ScraperService {
           values.push(value)
         }
       })
-      return { cssSelector, attribute, type, values, name, description, multiple }
+      return { name, description, cssSelector, attribute, type, multiple, values }
     })
   }
 
