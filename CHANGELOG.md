@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## NEXT
+## Next
 
 ### Added
 
@@ -9,6 +9,7 @@
 - Add `InputTarget.multiple: boolean` option to scrape all elements matched by the provided CSS selector
 - Add domain blocking feature
 - Support HTTP proxy for CSR
+- API versioning
 
 ### Changed
 
@@ -24,7 +25,7 @@
 
 - Fix @nestjs/swagger not recognize boolean type
 
-## V0.7.0
+## v0.7.0
 
 ### Features
 
@@ -39,7 +40,7 @@
 
 - Fix browsers won't start inside Docker
 
-## V0.6.0
+## v0.6.0
 
 ### Features
 
