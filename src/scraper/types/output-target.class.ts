@@ -6,5 +6,6 @@ export class OutputTarget {
   type: TargetType
   name?: string
   description?: string
-  values?: Array<string | number | null>
+  values: Array<string | number | null>
+  multiple?: boolean = false
 }

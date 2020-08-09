@@ -124,7 +124,7 @@ export class ScraperService {
           values.push(value)
         }
       })
-      return { cssSelector, attribute, type, values, name, description }
+      return { cssSelector, attribute, type, values, name, description, multiple }
     })
   }
 
