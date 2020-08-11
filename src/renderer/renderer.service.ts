@@ -18,25 +18,19 @@ export class RendererService {
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<string> {
-    let proxyBrowser
-    let context
-    if (proxy) {
-      proxyBrowser = await firefox.launch({
-        proxy: {
-          server: `${proxy.host}:${proxy.port}`,
-          username: proxy.username,
-          password: proxy.password,
-        },
-      })
-      context = await proxyBrowser.newContext({
-        extraHTTPHeaders: headers,
-      })
-    } else {
-      context = await this.browser.newContext({
-        extraHTTPHeaders: headers,
-      })
-    }
-    context.setDefaultTimeout(10 * 1000) // 10s
+    const browser = proxy
+      ? await firefox.launch({
+          proxy: {
+            server: `${proxy.host}:${proxy.port}`,
+            username: proxy.username,
+            password: proxy.password,
+          },
+        })
+      : this.browser
+    const context = await browser.newContext({
+      extraHTTPHeaders: headers,
+    })
+    context.setDefaultTimeout(30000) // 30s
     if (blockAds) {
       context.route("**", (route) => {
         const url = new URL(route.request().url())
@@ -59,10 +53,9 @@ export class RendererService {
       }
       return `<!DOCTYPE HTML>${html}`
     } finally {
+      await context.close()
       if (proxy) {
-        proxyBrowser.close()
-      } else {
-        await context.close()
+        await browser.close()
       }
     }
   }
