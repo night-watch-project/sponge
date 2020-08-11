@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Unreleased
+
+### Changed
+
+- (BREAKING) API version is prefix, not suffix anymore
+- Increase headless browser timeout to 30s
+
 ## v1.0.0-canary.0
 
 ### Added

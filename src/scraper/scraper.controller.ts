@@ -3,7 +3,7 @@ import { ScrapeCommandDto } from "./dto/scrape-command.dto"
 import { ScrapeResultDto } from "./dto/scrape-result.dto"
 import { ScraperService } from "./scraper.service"
 
-@Controller("scraper/v1")
+@Controller("v1/scraper")
 export class ScraperController {
   constructor(private readonly scraperService: ScraperService) {}
 

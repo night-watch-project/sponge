@@ -2,7 +2,7 @@ import { Body, Controller, Post } from "@nestjs/common"
 import { RenderCommandDto } from "./dto/render-command.dto"
 import { RendererService } from "./renderer.service"
 
-@Controller("renderer/v1")
+@Controller("v1/renderer")
 export class RendererController {
   constructor(private readonly rendererService: RendererService) {}
 
