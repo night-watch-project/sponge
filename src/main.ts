@@ -1,3 +1,4 @@
+import { ValidationPipe } from "@nestjs/common"
 import { NestFactory } from "@nestjs/core"
 import { FastifyAdapter } from "@nestjs/platform-fastify"
 import type { NestFastifyApplication } from "@nestjs/platform-fastify"
@@ -16,14 +17,17 @@ const bootstrap = async () => {
     AppModule,
     new FastifyAdapter()
   )
+  app.useGlobalPipes(new ValidationPipe())
 
-  const options = new DocumentBuilder()
-    .setTitle(packagejson.name)
-    .setDescription(packagejson.description)
-    .setVersion(packagejson.version)
-    .addServer(HOST ? `https://${HOST}` : "http://localhost:3000")
-    .build()
-  const document = SwaggerModule.createDocument(app, options)
+  const document = SwaggerModule.createDocument(
+    app,
+    new DocumentBuilder()
+      .setTitle(packagejson.name)
+      .setDescription(packagejson.description)
+      .setVersion(packagejson.version)
+      .addServer(HOST ? `https://${HOST}` : "http://localhost:3000")
+      .build()
+  )
   SwaggerModule.setup("docs", app, document)
   // export OpenAPI/Swagger specs to JSON file, in order to work with Saasify
   await fs.writeFile(path.join(__dirname, "../openapi.json"), JSON.stringify(document))
