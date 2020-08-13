@@ -5,6 +5,7 @@
 ### Added
 
 - Add `GET /v1/renderer/csr`
+- Request validation
 
 ### Changed
 
