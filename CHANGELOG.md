@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Add `GET /v1/renderer/csr`
+
 ### Changed
 
 - (BREAKING) API version is prefix, not suffix anymore
