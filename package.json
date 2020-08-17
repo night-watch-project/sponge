@@ -25,6 +25,7 @@
     "@nestjs/platform-fastify": "^7.4.2",
     "@nestjs/swagger": "^4.5.12",
     "@night-watch-project/metascraper-readability": "github:night-watch-project/metascraper-readability#v0.6.0",
+    "axios": "^0.20.0-0",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "dotenv-flow": "^3.1.0",
