@@ -1,7 +1,7 @@
 {
   "name": "sponge",
   "description": "Hassle-free web scraping service.",
-  "version": "1.0.0-canary.0",
+  "version": "1.0.0-canary.1",
   "keywords": ["sponge", "scraper"],
   "openapi": "./dist/openapi.json",
   "authProviders": {
