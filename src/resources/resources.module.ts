@@ -14,4 +14,4 @@ const providers = [
   providers,
   exports: providers,
 })
-export class BlocklistModule {}
+export class ResourcesModule {}

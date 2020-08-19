@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common"
 import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
-import { BlocklistProvider } from "../blocklist/blocklist.provider"
 import { HttpProxy } from "../common/types/http-proxy.class"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
+import { BlocklistProvider } from "../resources/blocklist.provider"
 
 @Injectable()
 export class RendererService {

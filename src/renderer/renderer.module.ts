@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common"
-import { BlocklistModule } from "../blocklist/blocklist.module"
 import { HeadlessBrowserModule } from "../headless-browser/headless-browser.module"
+import { ResourcesModule } from "../resources/resources.module"
 import { RendererController } from "./renderer.controller"
 import { RendererService } from "./renderer.service"
 
 @Module({
-  imports: [BlocklistModule, HeadlessBrowserModule],
+  imports: [ResourcesModule, HeadlessBrowserModule],
   controllers: [RendererController],
   providers: [RendererService],
   exports: [RendererService],
