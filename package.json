@@ -17,7 +17,7 @@
     "start:debug": "NODE_ENV=dev nest start --watch --debug",
     "start:prod": "NODE_ENV=prod node dist/src/main",
     "docker:build:app": "docker build -t nightwatchproject/sponge .",
-    "docker:start:prod": "docker run -d --name sponge -p 3000:3000 nightwatchproject/sponge"
+    "docker:start:prod": "docker run -d --rm --name sponge -p 3000:3000 nightwatchproject/sponge"
   },
   "dependencies": {
     "@nestjs/common": "^7.4.2",
