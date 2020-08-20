@@ -1,10 +1,4 @@
-import { Controller, Get, Redirect } from "@nestjs/common"
-import { ApiResponse } from "@nestjs/swagger"
+import { Controller } from "@nestjs/common"
 
 @Controller()
-export class AppController {
-  @Get()
-  @Redirect("/docs")
-  @ApiResponse({ status: 302, description: "Redirect to /docs" })
-  get(): void {}
-}
+export class AppController {}
