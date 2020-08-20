@@ -10,7 +10,7 @@ import * as packagejson from "../package.json"
 import { AppModule } from "./app.module"
 
 dotenv.config()
-const { NODE_ENV, HOST } = process.env
+const { NODE_ENV, PORT = "3000" } = process.env
 
 async function main() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -26,7 +26,7 @@ async function main() {
         .setTitle(packagejson.name)
         .setDescription(packagejson.description)
         .setVersion(packagejson.version)
-        .addServer(HOST ? `https://${HOST}` : "http://localhost:3000")
+        .addServer(`http://localhost:${parseInt(PORT)}`)
         .build()
     )
     SwaggerModule.setup("docs", app, document)
@@ -39,7 +39,7 @@ async function main() {
     })
   }
 
-  await app.listen(3000, "::")
+  await app.listen(parseInt(PORT), "::")
 }
 
 main().catch((err) => {
