@@ -31,7 +31,7 @@ async function main() {
     )
     SwaggerModule.setup("docs", app, document)
 
-    // export OpenAPI/Swagger specs to JSON file, in order to work with Saasify
+    // export OpenAPI/Swagger specs to JSON file
     // should be dist/openapi.json
     const filepath = path.join(__dirname, "../openapi.json")
     fs.writeFile(filepath, JSON.stringify(document)).catch((err) => {
