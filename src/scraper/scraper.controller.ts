@@ -5,11 +5,11 @@ import { ScraperService } from "./scraper.service"
 
 @Controller("v1/scraper")
 export class ScraperController {
-  constructor(private readonly scraperService: ScraperService) {}
+  constructor(private readonly scraper: ScraperService) {}
 
   @Post("csr")
   postCSR(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
-    return this.scraperService.scrapeCSR(
+    return this.scraper.scrapeCSR(
       body.url,
       body.targets ?? [],
       body.metadata ?? false,
@@ -21,7 +21,7 @@ export class ScraperController {
 
   @Post("ssr")
   postSSR(@Body() body: ScrapeCommandDto): Promise<ScrapeResultDto> {
-    return this.scraperService.scrapeSSR(
+    return this.scraper.scrapeSSR(
       body.url,
       body.targets ?? [],
       body.metadata ?? false,

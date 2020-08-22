@@ -5,18 +5,18 @@ import { RendererService } from "./renderer.service"
 
 @Controller("v1/renderer")
 export class RendererController {
-  constructor(private readonly rendererService: RendererService) {}
+  constructor(private readonly renderer: RendererService) {}
 
   @Get("csr")
   @Header("Content-Type", "text/html; charset=UTF-8")
   getCSR(@Query() query: RenderQueryDto): Promise<string> {
-    return this.rendererService.renderCSR(query.url, query.blockAds ?? true)
+    return this.renderer.renderCSR(query.url, query.blockAds ?? true)
   }
 
   @Post("csr")
   @Header("Content-Type", "text/html; charset=UTF-8")
   postCSR(@Body() body: RenderCommandDto): Promise<string> {
-    return this.rendererService.renderCSR(
+    return this.renderer.renderCSR(
       body.url,
       body.blockAds ?? true,
       body.headers,
@@ -27,12 +27,12 @@ export class RendererController {
   @Get("ssr")
   @Header("Content-Type", "text/html; charset=UTF-8")
   getSSR(@Query() query: RenderQueryDto): Promise<string> {
-    return this.rendererService.renderSSR(query.url)
+    return this.renderer.renderSSR(query.url)
   }
 
   @Post("ssr")
   @Header("Content-Type", "text/html; charset=UTF-8")
   postSSR(@Body() body: RenderCommandDto): Promise<string> {
-    return this.rendererService.renderSSR(body.url, body.headers, body.httpProxy)
+    return this.renderer.renderSSR(body.url, body.headers, body.httpProxy)
   }
 }
