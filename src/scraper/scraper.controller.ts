@@ -37,7 +37,7 @@ export class ScraperController {
   @Post("ssr")
   @ApiCreatedResponse({ type: ScrapeResultDto })
   async postSSR(@Body() body: ScrapeCommandDto, @Res() res: FastifyReply): Promise<void> {
-    const quotas = body.httpProxy ? 6 : 5
+    const quotas = body.httpProxy ? 2 : 1
     res
       .header(this.quotaCostHeader, `${this.quotaName}=${quotas}`)
       .send(
