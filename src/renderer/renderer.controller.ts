@@ -23,4 +23,16 @@ export class RendererController {
       body.httpProxy
     )
   }
+
+  @Get("ssr")
+  @Header("Content-Type", "text/html; charset=UTF-8")
+  getSSR(@Query() query: RenderQueryDto): Promise<string> {
+    return this.rendererService.renderSSR(query.url)
+  }
+
+  @Post("ssr")
+  @Header("Content-Type", "text/html; charset=UTF-8")
+  postSSR(@Body() body: RenderCommandDto): Promise<string> {
+    return this.rendererService.renderSSR(body.url, body.headers, body.httpProxy)
+  }
 }

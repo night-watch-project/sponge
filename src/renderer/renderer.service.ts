@@ -1,12 +1,16 @@
 import { Inject, Injectable } from "@nestjs/common"
 import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
+import axios from "axios"
 import { HttpProxy } from "../common/types/http-proxy.class"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
 import { BlocklistProvider } from "../resources/blocklist.provider"
 
 @Injectable()
 export class RendererService {
+  // temporarily use this axios instance until HttpService uses axios@0.20.x internally
+  axios = axios.create({ timeout: 10000, validateStatus: () => true })
+
   public constructor(
     @Inject(BlocklistProvider.providerName) private readonly blocklist: Set<string>,
     @Inject(HeadlessBrowserProvider.providerName) private readonly browser: FirefoxBrowser
@@ -58,5 +62,32 @@ export class RendererService {
         await browser.close()
       }
     }
+  }
+
+  public async renderSSR(
+    url: string,
+    headers?: Record<string, string>,
+    proxy?: HttpProxy
+  ): Promise<string> {
+    const res = await this.axios.get(url, {
+      headers,
+      proxy: proxy
+        ? {
+            host: proxy.host,
+            port: proxy.port,
+            auth:
+              proxy.username && proxy.password
+                ? {
+                    username: proxy.username,
+                    password: proxy.password,
+                  }
+                : undefined,
+          }
+        : undefined,
+    })
+    if (res.status < 200 || res.status >= 300 || !res.data) {
+      throw new Error(`Cannot extract HTML from ${url}`)
+    }
+    return res.data
   }
 }
