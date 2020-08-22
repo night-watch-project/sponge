@@ -68,26 +68,7 @@ export class ScraperService {
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<ScrapeResultDto> {
-    const res = await this.axios.get(url, {
-      headers,
-      proxy: proxy
-        ? {
-            host: proxy.host,
-            port: proxy.port,
-            auth:
-              proxy.username && proxy.password
-                ? {
-                    username: proxy.username,
-                    password: proxy.password,
-                  }
-                : undefined,
-          }
-        : undefined,
-    })
-    if (res.status < 200 || res.status >= 300 || !res.data) {
-      throw new Error(`Cannot send GET ${url}`)
-    }
-    const html = res.data
+    const html = await this.rendererService.renderSSR(url, headers, proxy)
     return this.scrapeWithHtml(url, targets, metadata, html)
   }
 
