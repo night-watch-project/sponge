@@ -1,11 +1,14 @@
 import { HttpModule, HttpService, Module } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 import { BlocklistProvider } from "./blocklist.provider"
 
 const providers = [
   {
     provide: BlocklistProvider.providerName,
-    inject: [HttpService],
-    useFactory: (httpService: HttpService) => BlocklistProvider.init(httpService),
+    inject: [ConfigService, HttpService],
+    useFactory: (config: ConfigService, http: HttpService) => {
+      return BlocklistProvider.init(config, http)
+    },
   },
 ]
 

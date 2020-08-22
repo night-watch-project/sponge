@@ -41,7 +41,7 @@ export class ScraperService {
     metaVideo(),
   ])
 
-  public constructor(private readonly rendererService: RendererService) {}
+  public constructor(private readonly renderer: RendererService) {}
 
   public async scrapeCSR(
     url: string,
@@ -51,7 +51,7 @@ export class ScraperService {
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<ScrapeResultDto> {
-    const html = await this.rendererService.renderCSR(url, blockAds, headers, proxy)
+    const html = await this.renderer.renderCSR(url, blockAds, headers, proxy)
     return this.scrapeWithHtml(url, targets, metadata, html)
   }
 
@@ -62,7 +62,7 @@ export class ScraperService {
     headers?: Record<string, string>,
     proxy?: HttpProxy
   ): Promise<ScrapeResultDto> {
-    const html = await this.rendererService.renderSSR(url, headers, proxy)
+    const html = await this.renderer.renderSSR(url, headers, proxy)
     return this.scrapeWithHtml(url, targets, metadata, html)
   }
 
