@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## Unreleased
+
+### Added
+
+- Add `GET /v1/renderer/ssr` route
+- Add `POST /v1/renderer/ssr` route
+- Add quota handling mechanism
+
+### Changed
+
+- Replace dotenv-flow with @nestjs/config
+
+### Removed
+
+- (BREAKING) Remove `/` and `/docs` routes from prod environment
+- Remove Saasify
+
 ## v1.0.0-canary.1
 
 ### Added
