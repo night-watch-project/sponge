@@ -1,13 +1,10 @@
-import { HttpModule, Module } from "@nestjs/common"
+import { Module } from "@nestjs/common"
 import { RendererModule } from "../renderer/renderer.module"
 import { ScraperController } from "./scraper.controller"
 import { ScraperService } from "./scraper.service"
 
 @Module({
-  imports: [
-    HttpModule.register({ timeout: 10000, validateStatus: () => true }),
-    RendererModule,
-  ],
+  imports: [RendererModule],
   controllers: [ScraperController],
   providers: [ScraperService],
 })

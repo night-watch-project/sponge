@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common"
+import axios from "axios"
 import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
-import axios from "axios"
 import { HttpProxy } from "../common/types/http-proxy.class"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
 import { BlocklistProvider } from "../resources/blocklist.provider"

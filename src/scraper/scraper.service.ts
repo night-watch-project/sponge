@@ -1,6 +1,5 @@
-import { HttpService, Injectable } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import metaReadability from "@night-watch-project/metascraper-readability"
-import axios from "axios"
 import { JSDOM } from "jsdom"
 import * as metaScraper from "metascraper"
 import * as metaAudio from "metascraper-audio"
@@ -41,13 +40,8 @@ export class ScraperService {
     metaUrl(),
     metaVideo(),
   ])
-  // temporarily use this axios instance until HttpService uses axios@0.20.x internally
-  axios = axios.create({ timeout: 10000, validateStatus: () => true })
 
-  public constructor(
-    private readonly httpService: HttpService,
-    private readonly rendererService: RendererService
-  ) {}
+  public constructor(private readonly rendererService: RendererService) {}
 
   public async scrapeCSR(
     url: string,
