@@ -3,12 +3,16 @@ import { HttpProxy } from "../../common/types/http-proxy.class"
 import { InputTarget } from "../types/input-target.class"
 
 export class ScrapeCommandDto {
-  @IsUrl()
-  url: string
+    @IsUrl()
+    url: string
 
-  targets?: InputTarget[] = []
-  metadata?: boolean = false
-  blockAds?: boolean = true
-  headers?: Record<string, string>
-  httpProxy?: HttpProxy
+    targets?: InputTarget[] = []
+
+    metadata?: boolean = false
+
+    blockAds?: boolean = true
+
+    forwardHeaders?: boolean = false
+
+    httpProxy?: HttpProxy
 }
