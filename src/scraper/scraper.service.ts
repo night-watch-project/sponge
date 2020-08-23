@@ -24,110 +24,110 @@ import { TargetType } from "./types/target-type.enum"
 
 @Injectable()
 export class ScraperService {
-  private metaScraper = metaScraper([
-    metaAudio(),
-    metaAuthor(),
-    metaDate(),
-    metaDescription(),
-    metaIframe(),
-    metaImage(),
-    metaLang(),
-    metaLogo(),
-    metaLogoFavicon(),
-    metaPublisher(),
-    metaReadability(),
-    metaTitle(),
-    metaUrl(),
-    metaVideo(),
-  ])
+    private readonly metaScraper = metaScraper([
+        metaAudio(),
+        metaAuthor(),
+        metaDate(),
+        metaDescription(),
+        metaIframe(),
+        metaImage(),
+        metaLang(),
+        metaLogo(),
+        metaLogoFavicon(),
+        metaPublisher(),
+        metaReadability(),
+        metaTitle(),
+        metaUrl(),
+        metaVideo(),
+    ])
 
-  public constructor(private readonly renderer: RendererService) {}
+    public constructor(private readonly renderer: RendererService) {}
 
-  public async scrapeCSR(
-    url: string,
-    targets: InputTarget[],
-    metadata: boolean,
-    blockAds: boolean,
-    headers?: Record<string, string>,
-    proxy?: HttpProxy
-  ): Promise<ScrapeResultDto> {
-    const html = await this.renderer.renderCSR(url, blockAds, headers, proxy)
-    return this.scrapeWithHtml(url, targets, metadata, html)
-  }
-
-  public async scrapeSSR(
-    url: string,
-    targets: InputTarget[],
-    metadata: boolean,
-    headers?: Record<string, string>,
-    proxy?: HttpProxy
-  ): Promise<ScrapeResultDto> {
-    const html = await this.renderer.renderSSR(url, headers, proxy)
-    return this.scrapeWithHtml(url, targets, metadata, html)
-  }
-
-  private async scrapeWithHtml(
-    url: string,
-    targets: InputTarget[],
-    metadata: boolean,
-    html: string
-  ): Promise<ScrapeResultDto> {
-    const outputTargets = this.scrapeTargets(targets, html)
-    const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
-    return { targets: outputTargets, metadata: meta }
-  }
-
-  private scrapeTargets(targets: InputTarget[], html: string): OutputTarget[] {
-    const dom = new JSDOM(html)
-    const { document } = dom.window
-
-    return targets.map((target) => {
-      const {
-        name,
-        description,
-        cssSelector,
-        attribute,
-        type = TargetType.String,
-        multiple = false,
-      } = target
-
-      let elements = Array.from(document.querySelectorAll(cssSelector))
-      if (!multiple) {
-        elements = elements.slice(0, 1)
-      }
-      const values = elements.map((element) => {
-        return this.scrapeElement(element, type, attribute)
-      })
-      return { name, description, cssSelector, attribute, type, multiple, values }
-    })
-  }
-
-  private async scrapeMetadata(
-    url: string,
-    html: string
-  ): Promise<Record<string, unknown>> {
-    return this.metaScraper({ url, html })
-  }
-
-  private scrapeElement(element: Element, type: TargetType, attribute?: string) {
-    const rawValue = attribute
-      ? element.getAttribute(attribute)
-      : type === TargetType.Html
-      ? element.innerHTML
-      : element.textContent
-    return this.parseRawValue(rawValue, type)
-  }
-
-  private parseRawValue(
-    rawValue: string | null,
-    type: TargetType
-  ): string | number | null {
-    if (rawValue === null) {
-      return null
+    public async scrapeCSR(
+        url: string,
+        targets: InputTarget[],
+        metadata: boolean,
+        blockAds: boolean,
+        headers?: Record<string, string>,
+        proxy?: HttpProxy
+    ): Promise<ScrapeResultDto> {
+        const html = await this.renderer.renderCSR(url, blockAds, headers, proxy)
+        return this.scrapeWithHtml(url, targets, metadata, html)
     }
-    if (type === TargetType.Number) {
-      return parseFloat(rawValue)
+
+    public async scrapeSSR(
+        url: string,
+        targets: InputTarget[],
+        metadata: boolean,
+        headers?: Record<string, string>,
+        proxy?: HttpProxy
+    ): Promise<ScrapeResultDto> {
+        const html = await this.renderer.renderSSR(url, headers, proxy)
+        return this.scrapeWithHtml(url, targets, metadata, html)
     }
-    return rawValue.trim()
-  }
+
+    private async scrapeWithHtml(
+        url: string,
+        targets: InputTarget[],
+        metadata: boolean,
+        html: string
+    ): Promise<ScrapeResultDto> {
+        const outputTargets = this.scrapeTargets(targets, html)
+        const meta = metadata ? await this.scrapeMetadata(url, html) : undefined
+        return { targets: outputTargets, metadata: meta }
+    }
+
+    private scrapeTargets(targets: InputTarget[], html: string): OutputTarget[] {
+        const dom = new JSDOM(html)
+        const { document } = dom.window
+
+        return targets.map((target) => {
+            const {
+                name,
+                description,
+                cssSelector,
+                attribute,
+                type = TargetType.String,
+                multiple = false,
+            } = target
+
+            let elements = Array.from(document.querySelectorAll(cssSelector))
+            if (!multiple) {
+                elements = elements.slice(0, 1)
+            }
+            const values = elements.map((element) => {
+                return this.scrapeElement(element, type, attribute)
+            })
+            return { name, description, cssSelector, attribute, type, multiple, values }
+        })
+    }
+
+    private async scrapeMetadata(
+        url: string,
+        html: string
+    ): Promise<Record<string, unknown>> {
+        return this.metaScraper({ url, html })
+    }
+
+    private scrapeElement(element: Element, type: TargetType, attribute?: string) {
+        const rawValue = attribute
+            ? element.getAttribute(attribute)
+            : type === TargetType.Html
+            ? element.innerHTML
+            : element.textContent
+        return this.parseRawValue(rawValue, type)
+    }
+
+    private parseRawValue(
+        rawValue: string | null,
+        type: TargetType
+    ): string | number | null {
+        if (rawValue === null) {
+            return null
+        }
+        if (type === TargetType.Number) {
+            return parseFloat(rawValue)
+        }
+        return rawValue.trim()
+    }
 }
