@@ -6,23 +6,23 @@ Hassle-free web scraping service.
 
 ### Core Features
 
-- Render client-side-rendered web pages
-- Auto extract metadata and article content
-- Extract text content, attribute value or inner HTML of any elements via CSS selectors
-- Domain blocking when `BLOCKLIST_URL` environment variable provided
-- Custom request headers like user-agent, cookies,...
-- HTTP proxy
+-   Render client-side-rendered web pages
+-   Auto extract metadata and article content
+-   Extract DOM elements via CSS selectors
+-   Domain blocking _(when `BLOCKLIST_URL` environment variable provided)_
+-   Forward request headers like user-agent, cookies,...
+-   HTTP proxy
 
 ### Live Version Features
 
-- Bundled with a blocklist of over 57,000 adware and malware domains
+-   Bundled with a blocklist of over 57,000 adware and malware domains
 
 ## INSTALLATION
 
 ### Requirements
 
-- Node.js >= 14
-- Environment variables specified in [.env.example](https://github.com/night-watch-project/sponge/blob/master/.env.example)
+-   Node.js >= 14
+-   Environment variables specified in [.env.example](https://github.com/night-watch-project/sponge/blob/master/.env.example)
 
 ### Instructions
 
