@@ -29,7 +29,7 @@ export class ScraperController {
                 body.url,
                 body.targets ?? [],
                 body.metadata ?? false,
-                body.blockAds ?? true,
+                body.blockAds ?? false,
                 body.forwardHeaders ? headers : undefined,
                 body.httpProxy
             )

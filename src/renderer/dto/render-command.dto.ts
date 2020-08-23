@@ -5,7 +5,7 @@ export class RenderCommandDto {
     @IsUrl()
     url: string
 
-    blockAds?: boolean = true
+    blockAds?: boolean = false
 
     forwardHeaders?: boolean = false
 

@@ -13,6 +13,7 @@
 
 -   (BREAKING) Replace `headers` option with `forwardHeaders` one in DTOs
 -   Replace dotenv-flow with @nestjs/config
+-   Disable domain blocking by default
 
 ### Removed
 

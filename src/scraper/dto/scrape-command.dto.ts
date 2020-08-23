@@ -10,7 +10,7 @@ export class ScrapeCommandDto {
 
     metadata?: boolean = false
 
-    blockAds?: boolean = true
+    blockAds?: boolean = false
 
     forwardHeaders?: boolean = false
 
