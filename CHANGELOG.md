@@ -7,11 +7,12 @@
 -   Add `GET /v1/renderer/ssr` route
 -   Add `POST /v1/renderer/ssr` route
 -   Add quota handling mechanism
+-   Forward response errors
 
 ### Changed
 
+-   (BREAKING) Replace `headers` option with `forwardHeaders` one in DTOs
 -   Replace dotenv-flow with @nestjs/config
--   (BREAKING) Replace headers option with forwardHeaders one in DTOs
 
 ### Removed
 
