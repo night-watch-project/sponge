@@ -56,7 +56,6 @@ export class RendererService {
             if (!res.ok()) {
                 throw new HttpException(res.statusText(), res.status())
             }
-
             const html = await page.innerHTML("html")
             return `<!DOCTYPE HTML>${html}`
         } finally {
@@ -88,8 +87,8 @@ export class RendererService {
                   }
                 : undefined,
         })
-        if (res.status < 200 || res.status >= 300 || !res.data) {
-            throw new Error(`Cannot extract HTML from ${url}`)
+        if (res.status < 200 || res.status >= 300) {
+            throw new HttpException(res.statusText, res.status)
         }
         return res.data
     }
