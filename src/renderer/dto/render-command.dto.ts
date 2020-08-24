@@ -1,5 +1,4 @@
 import { IsUrl } from "class-validator"
-import { HttpProxy } from "../../common/types/http-proxy.class"
 
 export class RenderCommandDto {
     @IsUrl()
@@ -9,5 +8,5 @@ export class RenderCommandDto {
 
     forwardHeaders?: boolean = false
 
-    httpProxy?: HttpProxy
+    httpProxy?: boolean = false
 }

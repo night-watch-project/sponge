@@ -5,4 +5,5 @@ export class RenderQueryDto extends PickType(RenderCommandDto, [
     "url",
     "blockAds",
     "forwardHeaders",
+    "httpProxy",
 ]) {}

@@ -2,9 +2,15 @@ import { BadRequestException, HttpException, Inject, Injectable } from "@nestjs/
 import axios from "axios"
 import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
-import { HttpProxy } from "../common/types/http-proxy.class"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
 import { BlocklistProvider } from "../resources/blocklist.provider"
+
+const {
+    HTTP_PROXY_USERNAME,
+    HTTP_PROXY_PASSWORD,
+    HTTP_PROXY_HOST,
+    HTTP_PROXY_PORT,
+} = process.env
 
 @Injectable()
 export class RendererService {
@@ -21,14 +27,14 @@ export class RendererService {
         url: string,
         blockAds: boolean,
         headers?: Record<string, string>,
-        proxy?: HttpProxy
+        proxy?: boolean
     ): Promise<string> {
         const browser = proxy
             ? await firefox.launch({
                   proxy: {
-                      server: `${proxy.host}:${proxy.port}`,
-                      username: proxy.username,
-                      password: proxy.password,
+                      server: `${HTTP_PROXY_HOST}:${HTTP_PROXY_PORT}`,
+                      username: HTTP_PROXY_USERNAME,
+                      password: HTTP_PROXY_PASSWORD,
                   },
               })
             : this.browser
@@ -69,21 +75,18 @@ export class RendererService {
     public async renderSSR(
         url: string,
         headers?: Record<string, string>,
-        proxy?: HttpProxy
+        proxy?: boolean
     ): Promise<string> {
         const res = await this.axios.get(url, {
             headers,
             proxy: proxy
                 ? {
-                      host: proxy.host,
-                      port: proxy.port,
-                      auth:
-                          proxy.username && proxy.password
-                              ? {
-                                    username: proxy.username,
-                                    password: proxy.password,
-                                }
-                              : undefined,
+                      host: String(HTTP_PROXY_HOST),
+                      port: Number(HTTP_PROXY_PORT),
+                      auth: {
+                          username: String(HTTP_PROXY_USERNAME),
+                          password: String(HTTP_PROXY_PASSWORD),
+                      },
                   }
                 : undefined,
         })

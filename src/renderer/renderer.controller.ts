@@ -27,7 +27,8 @@ export class RendererController {
             await this.renderer.renderCSR(
                 query.url,
                 query.blockAds ?? false,
-                query.forwardHeaders ? headers : undefined
+                query.forwardHeaders ? headers : undefined,
+                query.httpProxy
             )
         )
     }
@@ -61,7 +62,8 @@ export class RendererController {
         res.header(this.quotaCostHeader, `${this.quotaName}=${quotas}`).send(
             await this.renderer.renderSSR(
                 query.url,
-                query.forwardHeaders ? headers : undefined
+                query.forwardHeaders ? headers : undefined,
+                query.httpProxy
             )
         )
     }
