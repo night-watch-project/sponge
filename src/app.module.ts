@@ -7,11 +7,14 @@ import { ScraperModule } from "./scraper/scraper.module"
 const { NODE_ENV } = process.env
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ envFilePath: `.env.${NODE_ENV}`, isGlobal: true }),
-    RendererModule,
-    ScraperModule,
-  ],
-  controllers: [AppController],
+    imports: [
+        ConfigModule.forRoot({
+            envFilePath: [".env", `.env.${NODE_ENV}`],
+            isGlobal: true,
+        }),
+        RendererModule,
+        ScraperModule,
+    ],
+    controllers: [AppController],
 })
 export class AppModule {}
