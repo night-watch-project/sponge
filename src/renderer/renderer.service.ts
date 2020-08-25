@@ -1,8 +1,8 @@
 import { BadRequestException, HttpException, Inject, Injectable } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 import axios from "axios"
 import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
-import { HttpProxy } from "../common/types/http-proxy.class"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
 import { BlocklistProvider } from "../resources/blocklist.provider"
 
@@ -11,27 +11,35 @@ export class RendererService {
     // temporarily use this axios instance until HttpService uses axios@0.20.x internally
     axios = axios.create({ timeout: 10000, validateStatus: () => true })
 
+    private readonly httpProxy: string | undefined
+    private readonly httpProxyUrl: URL
+
     public constructor(
         @Inject(BlocklistProvider.providerName) private readonly blocklist: Set<string>,
         @Inject(HeadlessBrowserProvider.providerName)
-        private readonly browser: FirefoxBrowser
-    ) {}
+        private readonly browser: FirefoxBrowser,
+        config: ConfigService
+    ) {
+        this.httpProxy = config.get<string>("HTTP_PROXY")
+        this.httpProxyUrl = new URL(`http://${this.httpProxy}`)
+    }
 
     public async renderCSR(
         url: string,
         blockAds: boolean,
-        headers?: Record<string, string>,
-        proxy?: HttpProxy
+        proxy: boolean,
+        headers?: Record<string, string>
     ): Promise<string> {
-        const browser = proxy
-            ? await firefox.launch({
-                  proxy: {
-                      server: `${proxy.host}:${proxy.port}`,
-                      username: proxy.username,
-                      password: proxy.password,
-                  },
-              })
-            : this.browser
+        const browser =
+            proxy && this.httpProxy
+                ? await firefox.launch({
+                      proxy: {
+                          server: this.httpProxyUrl.host,
+                          username: this.httpProxyUrl.username,
+                          password: this.httpProxyUrl.password,
+                      },
+                  })
+                : this.browser
         const context = await browser.newContext({
             extraHTTPHeaders: headers,
         })
@@ -68,24 +76,22 @@ export class RendererService {
 
     public async renderSSR(
         url: string,
-        headers?: Record<string, string>,
-        proxy?: HttpProxy
+        proxy: boolean,
+        headers?: Record<string, string>
     ): Promise<string> {
         const res = await this.axios.get(url, {
             headers,
-            proxy: proxy
-                ? {
-                      host: proxy.host,
-                      port: proxy.port,
-                      auth:
-                          proxy.username && proxy.password
-                              ? {
-                                    username: proxy.username,
-                                    password: proxy.password,
-                                }
-                              : undefined,
-                  }
-                : undefined,
+            proxy:
+                proxy && this.httpProxy
+                    ? {
+                          host: this.httpProxyUrl.hostname,
+                          port: Number(this.httpProxyUrl.port) || 80,
+                          auth: {
+                              username: this.httpProxyUrl.username,
+                              password: this.httpProxyUrl.password,
+                          },
+                      }
+                    : undefined,
         })
         if (res.status < 200 || res.status >= 300) {
             throw new HttpException(res.statusText, res.status)

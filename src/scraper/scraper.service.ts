@@ -15,7 +15,6 @@ import * as metaPublisher from "metascraper-publisher"
 import * as metaTitle from "metascraper-title"
 import * as metaUrl from "metascraper-url"
 import * as metaVideo from "metascraper-video"
-import { HttpProxy } from "../common/types/http-proxy.class"
 import { RendererService } from "../renderer/renderer.service"
 import type { ScrapeResultDto } from "./dto/scrape-result.dto"
 import type { InputTarget } from "./types/input-target.class"
@@ -48,10 +47,10 @@ export class ScraperService {
         targets: InputTarget[],
         metadata: boolean,
         blockAds: boolean,
-        headers?: Record<string, string>,
-        proxy?: HttpProxy
+        proxy: boolean,
+        headers?: Record<string, string>
     ): Promise<ScrapeResultDto> {
-        const html = await this.renderer.renderCSR(url, blockAds, headers, proxy)
+        const html = await this.renderer.renderCSR(url, blockAds, proxy, headers)
         return this.scrapeWithHtml(url, targets, metadata, html)
     }
 
@@ -59,10 +58,10 @@ export class ScraperService {
         url: string,
         targets: InputTarget[],
         metadata: boolean,
-        headers?: Record<string, string>,
-        proxy?: HttpProxy
+        proxy: boolean,
+        headers?: Record<string, string>
     ): Promise<ScrapeResultDto> {
-        const html = await this.renderer.renderSSR(url, headers, proxy)
+        const html = await this.renderer.renderSSR(url, proxy, headers)
         return this.scrapeWithHtml(url, targets, metadata, html)
     }
 
