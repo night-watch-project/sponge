@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Unreleased
+
+### Fixed
+
+-   Fix wrong proxy server format
+
 ## v1.0.0-canary.2
 
 ### Added

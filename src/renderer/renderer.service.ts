@@ -34,7 +34,7 @@ export class RendererService {
             proxy && this.httpProxy
                 ? await firefox.launch({
                       proxy: {
-                          server: this.httpProxyUrl.host,
+                          server: this.httpProxyUrl.origin,
                           username: this.httpProxyUrl.username,
                           password: this.httpProxyUrl.password,
                       },
