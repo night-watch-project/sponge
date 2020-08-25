@@ -6,16 +6,16 @@ Hassle-free web scraping service.
 
 ### Core Features
 
--   Render client-side-rendered web pages
+-   Support client-side-rendered web pages
 -   Auto extract metadata and article content
 -   Extract DOM elements via CSS selectors
 -   Domain blocking _(when `BLOCKLIST_URL` environment variable provided)_
--   Forward request headers like user-agent, cookies,...
--   HTTP proxy
+-   HTTP proxy _(when `HTTP_PROXY` environment variable provided)_
 
 ### Live Version Features
 
 -   Bundled with a blocklist of over 57,000 adware and malware domains
+-   Built-in rotating proxies
 
 ## INSTALLATION
 

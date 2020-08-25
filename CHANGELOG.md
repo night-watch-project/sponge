@@ -11,7 +11,8 @@
 
 ### Changed
 
--   (BREAKING) Replace `headers` option with `forwardHeaders` one in DTOs
+-   (BREAKING) Replace `headers: Record<string, string>` option with `forwardHeaders: boolean` one in DTOs
+-   (BREAKING) Replace `httpProxy: HttpProxy` option with `httpProxy: boolean` one in DTOs
 -   Replace dotenv-flow with @nestjs/config
 -   Disable domain blocking by default
 
