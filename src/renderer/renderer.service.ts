@@ -11,7 +11,7 @@ export class RendererService {
     // temporarily use this axios instance until HttpService uses axios@0.20.x internally
     axios = axios.create({ timeout: 10000, validateStatus: () => true })
 
-    private readonly httpProxy: string
+    private readonly httpProxy: string | undefined
     private readonly httpProxyUrl: URL
 
     public constructor(
@@ -20,7 +20,7 @@ export class RendererService {
         private readonly browser: FirefoxBrowser,
         config: ConfigService
     ) {
-        this.httpProxy = config.get<string>("HTTP_PROXY") as string
+        this.httpProxy = config.get<string>("HTTP_PROXY")
         this.httpProxyUrl = new URL(`http://${this.httpProxy}`)
     }
 
@@ -30,15 +30,16 @@ export class RendererService {
         proxy: boolean,
         headers?: Record<string, string>
     ): Promise<string> {
-        const browser = proxy
-            ? await firefox.launch({
-                  proxy: {
-                      server: this.httpProxyUrl.host,
-                      username: this.httpProxyUrl.username,
-                      password: this.httpProxyUrl.password,
-                  },
-              })
-            : this.browser
+        const browser =
+            proxy && this.httpProxy
+                ? await firefox.launch({
+                      proxy: {
+                          server: this.httpProxyUrl.host,
+                          username: this.httpProxyUrl.username,
+                          password: this.httpProxyUrl.password,
+                      },
+                  })
+                : this.browser
         const context = await browser.newContext({
             extraHTTPHeaders: headers,
         })
@@ -80,16 +81,17 @@ export class RendererService {
     ): Promise<string> {
         const res = await this.axios.get(url, {
             headers,
-            proxy: proxy
-                ? {
-                      host: this.httpProxyUrl.hostname,
-                      port: Number(this.httpProxyUrl.port) || 80,
-                      auth: {
-                          username: this.httpProxyUrl.username,
-                          password: this.httpProxyUrl.password,
-                      },
-                  }
-                : undefined,
+            proxy:
+                proxy && this.httpProxy
+                    ? {
+                          host: this.httpProxyUrl.hostname,
+                          port: Number(this.httpProxyUrl.port) || 80,
+                          auth: {
+                              username: this.httpProxyUrl.username,
+                              password: this.httpProxyUrl.password,
+                          },
+                      }
+                    : undefined,
         })
         if (res.status < 200 || res.status >= 300) {
             throw new HttpException(res.statusText, res.status)
