@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v1.0.0-canary.3
 
 ### Fixed
 
