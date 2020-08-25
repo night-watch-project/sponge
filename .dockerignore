@@ -2,19 +2,19 @@
 .dockerignore
 Dockerfile
 
-# Git
+# Git & Github
 .git
 .gitignore
+.github
 
 # Dependencies
 node_modules
-
-# Lock files
-*.lock
 package-lock.json
+yarn.lock
 
 # Build output
 dist
 
-# Deployment configurations and scripts
+# Others
+base
 scripts

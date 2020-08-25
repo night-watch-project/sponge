@@ -3,9 +3,10 @@
 # Google Cloud
 .gcloudignore
 
-# Git
+# Git & Github
 .git
 .gitignore
+.github
 
 # Dotenv files
 !.env
