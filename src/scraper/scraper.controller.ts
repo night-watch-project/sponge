@@ -1,12 +1,13 @@
 import { Body, Controller, Headers, Post, Res } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
-import { ApiCreatedResponse } from "@nestjs/swagger"
+import { ApiCreatedResponse, ApiTags } from "@nestjs/swagger"
 import type { FastifyReply } from "fastify"
 import { ScrapeCommandDto } from "./dto/scrape-command.dto"
 import { ScrapeResultDto } from "./dto/scrape-result.dto"
 import { ScraperService } from "./scraper.service"
 
 @Controller("v1/scraper")
+@ApiTags("scraper")
 export class ScraperController {
     private readonly quotaCostHeader: string
     private readonly quotaName: string

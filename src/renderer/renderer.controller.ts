@@ -1,11 +1,13 @@
 import { Body, Controller, Get, Header, Headers, Post, Query, Res } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
+import { ApiTags } from "@nestjs/swagger"
 import type { FastifyReply } from "fastify"
 import { RenderCommandDto } from "./dto/render-command.dto"
 import { RenderQueryDto } from "./dto/render-query.dto"
 import { RendererService } from "./renderer.service"
 
 @Controller("v1/renderer")
+@ApiTags("renderer")
 export class RendererController {
     private readonly quotaCostHeader: string
     private readonly quotaName: string
