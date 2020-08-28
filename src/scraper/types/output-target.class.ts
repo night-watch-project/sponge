@@ -1,11 +1,25 @@
 import { TargetType } from "./target-type.enum"
+import { ApiProperty } from "@nestjs/swagger"
 
 export class OutputTarget {
-  name?: string
-  description?: string
-  cssSelector: string
-  attribute?: string
-  type: TargetType
-  multiple: boolean
-  values: Array<string | number | null>
+    @ApiProperty({ description: "Target name" })
+    name?: string
+
+    @ApiProperty({ description: "Target description" })
+    description?: string
+
+    @ApiProperty({ description: "CSS selector" })
+    cssSelector: string
+
+    @ApiProperty({ description: "Attribute name" })
+    attribute?: string
+
+    @ApiProperty({ description: "Data type" })
+    type: TargetType
+
+    @ApiProperty({ description: "Whether to scrape all matching elements" })
+    multiple: boolean
+
+    @ApiProperty({ description: "Target values" })
+    values: Array<string | number | null>
 }
