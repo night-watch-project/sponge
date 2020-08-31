@@ -1,6 +1,11 @@
-import { BadRequestException, HttpException, Inject, Injectable } from "@nestjs/common"
+import {
+    BadRequestException,
+    HttpException,
+    Inject,
+    Injectable,
+    HttpService,
+} from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
-import axios from "axios"
 import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
@@ -8,13 +13,11 @@ import { BlocklistProvider } from "../resources/blocklist.provider"
 
 @Injectable()
 export class RendererService {
-    // temporarily use this axios instance until HttpService uses axios@0.20.x internally
-    axios = axios.create({ timeout: 10000, validateStatus: () => true })
-
     private readonly httpProxy: string | undefined
     private readonly httpProxyUrl: URL
 
     public constructor(
+        private readonly http: HttpService,
         @Inject(BlocklistProvider.providerName) private readonly blocklist: Set<string>,
         @Inject(HeadlessBrowserProvider.providerName)
         private readonly browser: FirefoxBrowser,
@@ -79,20 +82,22 @@ export class RendererService {
         proxy: boolean,
         headers?: Record<string, string>
     ): Promise<string> {
-        const res = await this.axios.get(url, {
-            headers,
-            proxy:
-                proxy && this.httpProxy
-                    ? {
-                          host: this.httpProxyUrl.hostname,
-                          port: Number(this.httpProxyUrl.port) || 80,
-                          auth: {
-                              username: this.httpProxyUrl.username,
-                              password: this.httpProxyUrl.password,
-                          },
-                      }
-                    : undefined,
-        })
+        const res = await this.http
+            .get(url, {
+                headers,
+                proxy:
+                    proxy && this.httpProxy
+                        ? {
+                              host: this.httpProxyUrl.hostname,
+                              port: Number(this.httpProxyUrl.port) || 80,
+                              auth: {
+                                  username: this.httpProxyUrl.username,
+                                  password: this.httpProxyUrl.password,
+                              },
+                          }
+                        : undefined,
+            })
+            .toPromise()
         if (res.status < 200 || res.status >= 300) {
             throw new HttpException(res.statusText, res.status)
         }
