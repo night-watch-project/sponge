@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Unreleased
+
+### Added
+
+-   Re-add `/docs` to prod environment
+
+### Changed
+
+-   Revert to built-in `HttpService`
+
 ## v1.0.0-canary.3
 
 ### Fixed
