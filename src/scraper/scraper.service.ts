@@ -47,10 +47,17 @@ export class ScraperService {
         targets: InputTarget[],
         metadata: boolean,
         blockAds: boolean,
+        spoofUserAgent: boolean,
         proxy: boolean,
         headers?: Record<string, string>
     ): Promise<ScrapeResultDto> {
-        const html = await this.renderer.renderCSR(url, blockAds, proxy, headers)
+        const html = await this.renderer.renderCSR(
+            url,
+            blockAds,
+            spoofUserAgent,
+            proxy,
+            headers
+        )
         return this.scrapeWithHtml(url, targets, metadata, html)
     }
 
@@ -58,10 +65,11 @@ export class ScraperService {
         url: string,
         targets: InputTarget[],
         metadata: boolean,
+        spoofUserAgent: boolean,
         proxy: boolean,
         headers?: Record<string, string>
     ): Promise<ScrapeResultDto> {
-        const html = await this.renderer.renderSSR(url, proxy, headers)
+        const html = await this.renderer.renderSSR(url, spoofUserAgent, proxy, headers)
         return this.scrapeWithHtml(url, targets, metadata, html)
     }
 

@@ -1,6 +1,7 @@
 import type { HttpService } from "@nestjs/common"
 import type { ConfigService } from "@nestjs/config"
 import { UserAgentPool } from "./types/user-agent-pool.class"
+import { UserAgentEntity } from "./types/user-agent.interface"
 
 export class UserAgentPoolProvider {
     private static pool = new UserAgentPool()
@@ -19,7 +20,7 @@ export class UserAgentPoolProvider {
             return UserAgentPoolProvider.pool
         }
 
-        const res = await http.get(url).toPromise()
+        const res = await http.get<UserAgentEntity[]>(url).toPromise()
         if (res.status < 200 || res.status >= 300 || !res.data) {
             throw new Error(`Cannot fetch user-agents from ${url}`)
         }

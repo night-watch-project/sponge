@@ -10,6 +10,8 @@ import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
 import { BlocklistProvider } from "../resources/blocklist.provider"
+import { UserAgentPoolProvider } from "../resources/user-agent-pool.provider"
+import { UserAgentPool } from "../resources/types/user-agent-pool.class"
 
 @Injectable()
 export class RendererService {
@@ -19,6 +21,8 @@ export class RendererService {
     public constructor(
         private readonly http: HttpService,
         @Inject(BlocklistProvider.providerName) private readonly blocklist: Set<string>,
+        @Inject(UserAgentPoolProvider.providerName)
+        private readonly userAgentPool: UserAgentPool,
         @Inject(HeadlessBrowserProvider.providerName)
         private readonly browser: FirefoxBrowser,
         config: ConfigService
@@ -30,6 +34,7 @@ export class RendererService {
     public async renderCSR(
         url: string,
         blockAds: boolean,
+        spoofUserAgent: boolean,
         proxy: boolean,
         headers?: Record<string, string>
     ): Promise<string> {
@@ -44,6 +49,7 @@ export class RendererService {
                   })
                 : this.browser
         const context = await browser.newContext({
+            userAgent: spoofUserAgent ? this.userAgentPool.random() : undefined,
             extraHTTPHeaders: headers,
         })
         context.setDefaultTimeout(30000) // 30s
@@ -79,12 +85,15 @@ export class RendererService {
 
     public async renderSSR(
         url: string,
+        spoofUserAgent: boolean,
         proxy: boolean,
         headers?: Record<string, string>
     ): Promise<string> {
         const res = await this.http
             .get(url, {
-                headers,
+                headers: spoofUserAgent
+                    ? { ...headers, "User-Agent": this.userAgentPool.random() }
+                    : headers,
                 proxy:
                     proxy && this.httpProxy
                         ? {
