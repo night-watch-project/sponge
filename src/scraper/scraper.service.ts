@@ -1,20 +1,20 @@
 import { Injectable } from "@nestjs/common"
-import metaReadability from "@night-watch-project/metascraper-readability"
 import { JSDOM } from "jsdom"
-import * as metaScraper from "metascraper"
-import * as metaAudio from "metascraper-audio"
-import * as metaAuthor from "metascraper-author"
-import * as metaDate from "metascraper-date"
-import * as metaDescription from "metascraper-description"
-import * as metaIframe from "metascraper-iframe"
-import * as metaImage from "metascraper-image"
-import * as metaLang from "metascraper-lang"
-import * as metaLogo from "metascraper-logo"
-import * as metaLogoFavicon from "metascraper-logo-favicon"
-import * as metaPublisher from "metascraper-publisher"
-import * as metaTitle from "metascraper-title"
-import * as metaUrl from "metascraper-url"
-import * as metaVideo from "metascraper-video"
+import metaScraper, { Metadata } from "metascraper"
+import metaAudio from "metascraper-audio"
+import metaAuthor from "metascraper-author"
+import metaDate from "metascraper-date"
+import metaDescription from "metascraper-description"
+import metaIframe from "metascraper-iframe"
+import metaImage from "metascraper-image"
+import metaLang from "metascraper-lang"
+import metaLogo from "metascraper-logo"
+import metaLogoFavicon from "metascraper-logo-favicon"
+import metaPublisher from "metascraper-publisher"
+import metaReadability from "metascraper-readability"
+import metaTitle from "metascraper-title"
+import metaUrl from "metascraper-url"
+import metaVideo from "metascraper-video"
 import { RendererService } from "../renderer/renderer.service"
 import type { ScrapeResultDto } from "./dto/scrape-result.dto"
 import type { InputTarget } from "./types/input-target.class"
@@ -109,10 +109,7 @@ export class ScraperService {
         })
     }
 
-    private async scrapeMetadata(
-        url: string,
-        html: string
-    ): Promise<Record<string, unknown>> {
+    private async scrapeMetadata(url: string, html: string): Promise<Metadata> {
         return this.metaScraper({ url, html })
     }
 
