@@ -2,14 +2,12 @@
 
 ## HIGH PRIORITY
 
-- Cache headless browsers using user data directories
-- Universal cache
-- Built-in user-agent and HTTP proxy pool
+-   Cache headless browsers using user data directories
+-   Universal cache
 
 ## MEDIUM PRIORITY
 
-- Support `ScrapeCommandDto.deCAPTCHA: boolean` option
-
 ## LOW PRIORITY
 
-- Support DOM extraction expression evaluators like [Surgeon](https://github.com/gajus/surgeon)
+-   Support DOM extraction expression evaluators like [Surgeon](https://github.com/gajus/surgeon)
+-   Support `ScrapeCommandDto.deCAPTCHA: boolean` option
