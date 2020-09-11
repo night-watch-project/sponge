@@ -15,6 +15,7 @@ Hassle-free web scraping service.
 ### Live Version Features
 
 -   Bundled with a blocklist of over 57,000 adware and malware domains
+-   Built-in user-agent pool
 -   Built-in rotating proxies
 
 ## INSTALLATION
