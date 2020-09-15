@@ -15,8 +15,7 @@ import { UserAgentPool } from "../resources/types/user-agent-pool.class"
 
 @Injectable()
 export class RendererService {
-    private readonly httpProxy: string | undefined
-    private readonly httpProxyUrl: URL
+    private readonly httpProxyUrl?: URL
 
     public constructor(
         private readonly http: HttpService,
@@ -27,8 +26,8 @@ export class RendererService {
         private readonly browser: FirefoxBrowser,
         config: ConfigService
     ) {
-        this.httpProxy = config.get<string>("HTTP_PROXY")
-        this.httpProxyUrl = new URL(`http://${this.httpProxy}`)
+        const httpProxy = config.get<string>("HTTP_PROXY")
+        this.httpProxyUrl = httpProxy ? new URL(`http://${httpProxy}`) : undefined
     }
 
     public async renderCSR(
@@ -39,7 +38,7 @@ export class RendererService {
         headers?: Record<string, string>
     ): Promise<string> {
         const browser =
-            proxy && this.httpProxy
+            proxy && this.httpProxyUrl
                 ? await firefox.launch({
                       proxy: {
                           server: this.httpProxyUrl.origin,
@@ -95,7 +94,7 @@ export class RendererService {
                     ? { ...headers, "User-Agent": this.userAgentPool.random() }
                     : headers,
                 proxy:
-                    proxy && this.httpProxy
+                    proxy && this.httpProxyUrl
                         ? {
                               host: this.httpProxyUrl.hostname,
                               port: Number(this.httpProxyUrl.port) || 80,
