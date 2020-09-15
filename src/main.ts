@@ -5,8 +5,8 @@ import { FastifyAdapter } from "@nestjs/platform-fastify"
 import type { NestFastifyApplication } from "@nestjs/platform-fastify"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 import { promises as fs } from "fs"
-import * as path from "path"
-import * as packagejson from "../package.json"
+import path from "path"
+import packagejson from "../package.json"
 import { AppModule } from "./app.module"
 
 async function main() {

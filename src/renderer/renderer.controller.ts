@@ -29,6 +29,7 @@ export class RendererController {
             await this.renderer.renderCSR(
                 query.url,
                 query.blockAds ?? false,
+                query.spoofUserAgent ?? false,
                 query.httpProxy ?? false,
                 query.forwardHeaders ? headers : undefined
             )
@@ -47,6 +48,7 @@ export class RendererController {
             await this.renderer.renderCSR(
                 body.url,
                 body.blockAds ?? false,
+                body.spoofUserAgent ?? false,
                 body.httpProxy ?? false,
                 body.forwardHeaders ? headers : undefined
             )
@@ -64,6 +66,7 @@ export class RendererController {
         res.header(this.quotaCostHeader, `${this.quotaName}=${quotas}`).send(
             await this.renderer.renderSSR(
                 query.url,
+                query.spoofUserAgent ?? false,
                 query.httpProxy ?? false,
                 query.forwardHeaders ? headers : undefined
             )
@@ -81,6 +84,7 @@ export class RendererController {
         res.header(this.quotaCostHeader, `${this.quotaName}=${quotas}`).send(
             await this.renderer.renderSSR(
                 body.url,
+                body.spoofUserAgent ?? false,
                 body.httpProxy ?? false,
                 body.forwardHeaders ? headers : undefined
             )

@@ -10,31 +10,35 @@ import { firefox } from "playwright-firefox"
 import type { FirefoxBrowser } from "playwright-firefox"
 import { HeadlessBrowserProvider } from "../headless-browser/headless-browser.provider"
 import { BlocklistProvider } from "../resources/blocklist.provider"
+import { UserAgentPoolProvider } from "../resources/user-agent-pool.provider"
+import { UserAgentPool } from "../resources/types/user-agent-pool.class"
 
 @Injectable()
 export class RendererService {
-    private readonly httpProxy: string | undefined
-    private readonly httpProxyUrl: URL
+    private readonly httpProxyUrl?: URL
 
     public constructor(
         private readonly http: HttpService,
         @Inject(BlocklistProvider.providerName) private readonly blocklist: Set<string>,
+        @Inject(UserAgentPoolProvider.providerName)
+        private readonly userAgentPool: UserAgentPool,
         @Inject(HeadlessBrowserProvider.providerName)
         private readonly browser: FirefoxBrowser,
         config: ConfigService
     ) {
-        this.httpProxy = config.get<string>("HTTP_PROXY")
-        this.httpProxyUrl = new URL(`http://${this.httpProxy}`)
+        const httpProxy = config.get<string>("HTTP_PROXY")
+        this.httpProxyUrl = httpProxy ? new URL(`http://${httpProxy}`) : undefined
     }
 
     public async renderCSR(
         url: string,
         blockAds: boolean,
+        spoofUserAgent: boolean,
         proxy: boolean,
         headers?: Record<string, string>
     ): Promise<string> {
         const browser =
-            proxy && this.httpProxy
+            proxy && this.httpProxyUrl
                 ? await firefox.launch({
                       proxy: {
                           server: this.httpProxyUrl.origin,
@@ -44,6 +48,7 @@ export class RendererService {
                   })
                 : this.browser
         const context = await browser.newContext({
+            userAgent: spoofUserAgent ? this.userAgentPool.random() : undefined,
             extraHTTPHeaders: headers,
         })
         context.setDefaultTimeout(30000) // 30s
@@ -79,14 +84,17 @@ export class RendererService {
 
     public async renderSSR(
         url: string,
+        spoofUserAgent: boolean,
         proxy: boolean,
         headers?: Record<string, string>
     ): Promise<string> {
         const res = await this.http
             .get(url, {
-                headers,
+                headers: spoofUserAgent
+                    ? { ...headers, "User-Agent": this.userAgentPool.random() }
+                    : headers,
                 proxy:
-                    proxy && this.httpProxy
+                    proxy && this.httpProxyUrl
                         ? {
                               host: this.httpProxyUrl.hostname,
                               port: Number(this.httpProxyUrl.port) || 80,

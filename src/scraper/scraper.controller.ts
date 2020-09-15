@@ -31,6 +31,7 @@ export class ScraperController {
                 body.targets ?? [],
                 body.metadata ?? false,
                 body.blockAds ?? false,
+                body.spoofUserAgent ?? false,
                 body.httpProxy ?? false,
                 body.forwardHeaders ? headers : undefined
             )
@@ -50,6 +51,7 @@ export class ScraperController {
                 body.url,
                 body.targets ?? [],
                 body.metadata ?? false,
+                body.spoofUserAgent ?? false,
                 body.httpProxy ?? false,
                 body.forwardHeaders ? headers : undefined
             )

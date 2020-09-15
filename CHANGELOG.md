@@ -5,6 +5,7 @@
 ### Added
 
 -   Re-add `/docs` to prod environment
+-   Built-in user-agent pool
 
 ### Changed
 
