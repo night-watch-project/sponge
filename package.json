@@ -27,7 +27,7 @@
         "@nestjs/swagger": "^4.6.0",
         "class-transformer": "^0.3.1",
         "class-validator": "^0.12.2",
-        "fastify-swagger": "^3.3.0",
+        "fastify-swagger": "^4.3.1",
         "jsdom": "^16.4.0",
         "metascraper": "^5.14.8",
         "metascraper-audio": "^5.14.7",
