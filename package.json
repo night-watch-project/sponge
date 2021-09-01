@@ -28,7 +28,7 @@
         "class-transformer": "^0.3.1",
         "class-validator": "^0.12.2",
         "fastify-swagger": "^4.3.1",
-        "jsdom": "^16.4.0",
+        "jsdom": "^17.0.0",
         "metascraper": "^5.14.8",
         "metascraper-audio": "^5.14.7",
         "metascraper-author": "^5.14.7",
